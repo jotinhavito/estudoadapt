@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EstudoAdapt · Alta Performance</title>
+  <title>Odisseia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,16 +18,16 @@
           },
           colors: {
             brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              200: '#c7d2fe',
-              300: '#a5b4fc',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
             }
           }
         }
@@ -60,12 +60,12 @@
       <!-- Topo: Logo & Ações -->
       <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-brand-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
+            <!-- Ícone de Árvore (Constância e Crescimento) -->
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-6m0 0l-3-3m3 3l3-3M6.5 10a5.5 5.5 0 1111 0 5.5 5.5 0 11-11 0z" /></svg>
           </div>
           <div>
-            <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white block leading-none">EstudoAdapt</span>
-            <span class="text-[9px] font-black tracking-wider text-brand-600 dark:text-brand-400 uppercase mt-1 inline-block">ALTA PERFORMANCE</span>
+            <span class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white block">Odisseia</span>
           </div>
         </div>
         <div class="flex items-center gap-1">
@@ -75,6 +75,7 @@
           <button id="syncModalBtn" title="Backup e Sincronização" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
           </button>
+          <!-- Botão de Recolher -->
           <button onclick="toggleSidebar()" title="Recolher Menu" class="p-1.5 rounded-xl text-slate-400 hover:text-brand-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
           </button>
@@ -134,7 +135,7 @@
         <div onclick="openManagePrepsModal()" class="cursor-pointer bg-slate-50 dark:bg-slate-800/70 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 hover:border-brand-300 transition group">
           <div class="flex items-center justify-between mb-1">
             <span class="text-[9px] font-black tracking-wider text-slate-400 uppercase">PREPARAÇÃO ATIVA</span>
-            <span id="sidePrepFaseBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400">PRÉ-EDITAL</span>
+            <span id="sidePrepFaseBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400">PRÉ-EDITAL</span>
           </div>
           <p id="sidePrepTitle" class="text-xs font-black text-slate-900 dark:text-white truncate">Carregando...</p>
           <p id="sidePrepCargo" class="text-[10px] text-brand-600 dark:text-brand-400 font-semibold truncate">...</p>
@@ -190,13 +191,13 @@
             <div>
               <div class="flex items-center justify-between text-xs mb-1">
                 <div class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
                   <span class="text-[11px] text-slate-300 font-medium">Questões</span>
                 </div>
                 <span id="sideMetaSemanaQuestoesText" class="text-slate-400 font-mono text-[10px]">0/0 Q · 0%</span>
               </div>
               <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div id="sideMetaSemanaQuestoesBar" class="bg-violet-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                <div id="sideMetaSemanaQuestoesBar" class="bg-blue-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
               </div>
             </div>
           </div>
@@ -222,7 +223,7 @@
         </div>
       </div>
 
-      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden border border-slate-800">
+      <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-900 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden border border-slate-800">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div class="space-y-2">
             <div class="flex items-center gap-2 flex-wrap">
@@ -269,7 +270,7 @@
 
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Simulados Fechados</span>
-          <span id="statDashSimulados" class="text-3xl font-black text-purple-600 dark:text-purple-400">0</span>
+          <span id="statDashSimulados" class="text-3xl font-black text-blue-600 dark:text-blue-400">0</span>
           <p id="statDashSimuladosMedia" class="text-xs text-slate-400 mt-2 font-medium">Média: -</p>
         </div>
       </div>
@@ -306,7 +307,7 @@
           <span id="editalGlobalPctText" class="font-black text-brand-600 dark:text-brand-400 font-mono">0 de 0 tópicos (0.0%)</span>
         </div>
         <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-          <div id="editalGlobalProgressBar" class="bg-gradient-to-r from-brand-600 to-violet-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+          <div id="editalGlobalProgressBar" class="bg-brand-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
       </div>
 
@@ -328,11 +329,12 @@
             <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100 dark:border-slate-800 flex-wrap gap-3">
               <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold">
                 <button id="modeTimerBtn" onclick="setSessionMode('timer')" class="px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">⏱️ Cronômetro Focado</button>
-                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️ Lançamento Manual</button>
+                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍ Lançamento Manual</button>
               </div>
               <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Registro de Estudos</span>
             </div>
 
+            <!-- Mini Painel do Cronômetro -->
             <div id="timerContainerPanel" class="mb-6 p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-[#0b1324] border border-slate-800 text-white relative overflow-hidden shadow-inner">
               <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-center sm:text-left">
@@ -357,6 +359,7 @@
               </div>
             </div>
 
+            <!-- Formulário de Matéria, Tópico e Banca -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina</label>
@@ -399,7 +402,7 @@
               <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">Modalidade do Estudo</label>
               <div class="flex flex-wrap gap-2" id="modalityPillsContainer">
                 <button type="button" onclick="toggleModality(this, 'Teoria')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">📖 Teoria</button>
-                <button type="button" onclick="toggleModality(this, 'Questões')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">✍️ Questões</button>
+                <button type="button" onclick="toggleModality(this, 'Questões')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">✍️️ Questões</button>
                 <button type="button" onclick="toggleModality(this, 'Lei Seca')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">⚖️ Lei Seca</button>
                 <button type="button" onclick="toggleModality(this, 'Revisão')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">🔄 Revisão</button>
                 <button type="button" onclick="toggleModality(this, 'Jurisprudência')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">🏛️ Jurisprudência</button>
@@ -438,14 +441,15 @@
               Como você quer revisar?
             </h2>
 
+            <!-- Botões em Pílula Superiores -->
             <div class="flex items-center justify-center gap-2 mb-5">
-              <button type="button" id="tabRevEspacada" onclick="setRevMethod('espacada')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-[#582be8] bg-[#582be8] text-white shadow-sm">
+              <button type="button" id="tabRevEspacada" onclick="setRevMethod('espacada')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-brand-600 bg-brand-600 text-white shadow-sm">
                 Espaçada
               </button>
-              <button type="button" id="tabRevDatas" onclick="setRevMethod('datas')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]">
+              <button type="button" id="tabRevDatas" onclick="setRevMethod('datas')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600">
                 Escolher datas
               </button>
-              <button type="button" id="tabRevRecorrente" onclick="setRevMethod('recorrente')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]">
+              <button type="button" id="tabRevRecorrente" onclick="setRevMethod('recorrente')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600">
                 Recorrente
               </button>
             </div>
@@ -453,7 +457,7 @@
             <div id="revDynamicContentContainer" class="space-y-4"></div>
 
             <div class="mt-5 pt-2">
-              <button type="button" onclick="salvarApenasRevisao()" title="Agenda as revisões calculadas diretamente no Calendário" class="w-full py-3.5 rounded-2xl bg-[#a3d9bc] hover:bg-[#8ecba8] active:scale-[0.99] text-slate-800 font-extrabold text-sm tracking-wide transition shadow-sm flex items-center justify-center gap-2">
+              <button type="button" onclick="salvarApenasRevisao()" title="Agenda as revisões calculadas diretamente no Calendário" class="w-full py-3.5 rounded-2xl bg-emerald-300 hover:bg-emerald-400 active:scale-[0.99] text-emerald-900 font-extrabold text-sm tracking-wide transition shadow-sm flex items-center justify-center gap-2">
                 <span>Salvar Revisão Manual</span>
               </button>
               <p class="text-[10px] text-center text-slate-400 mt-2 font-medium">
@@ -502,7 +506,7 @@
               <span class="text-slate-500 dark:text-slate-400 font-medium">Estudo Realizado</span>
             </div>
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
               <span class="text-slate-500 dark:text-slate-400 font-medium">Revisão Programada</span>
             </div>
           </div>
@@ -661,7 +665,7 @@
     <div class="bg-white dark:bg-[#151e32] w-full max-w-xl rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-6">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+          <div class="w-10 h-10 rounded-2xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
           </div>
           <div>
@@ -1125,13 +1129,11 @@
       document.getElementById('syncModalBtn').addEventListener('click', openSyncModal);
     });
 
-    // Função única que gerencia a expansão e redução do painel no mobile E no desktop
     function toggleSidebar() {
       const sidebar = document.getElementById('appSidebar');
       const backdrop = document.getElementById('sidebarBackdrop');
 
       if (window.innerWidth >= 768) {
-        // Desktop Toggle
         if (sidebar.classList.contains('md:translate-x-0')) {
           sidebar.classList.remove('md:translate-x-0');
           sidebar.classList.add('md:-translate-x-full', 'md:-ml-64');
@@ -1140,7 +1142,6 @@
           sidebar.classList.add('md:translate-x-0');
         }
       } else {
-        // Mobile Toggle
         if (sidebar.classList.contains('-translate-x-full')) {
           sidebar.classList.remove('-translate-x-full');
           backdrop.classList.remove('hidden');
@@ -1969,9 +1970,9 @@
         const el = document.getElementById(t.id);
         if (el) {
           if (revState.method === t.m) {
-            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-[#582be8] bg-[#582be8] text-white shadow-sm';
+            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-brand-600 bg-brand-600 text-white shadow-sm';
           } else {
-            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]';
+            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600';
           }
         }
       });
@@ -1988,18 +1989,18 @@
           </p>
 
           <div class="flex items-center justify-center gap-2 pt-1 flex-wrap">
-            <button type="button" onclick="setEspacadaPreset('1-7-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+            <button type="button" onclick="setEspacadaPreset('1-7-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-30' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
               1 · 7 · 30
             </button>
-            <button type="button" onclick="setEspacadaPreset('1-7-14-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-14-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+            <button type="button" onclick="setEspacadaPreset('1-7-14-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-14-30' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
               1 · 7 · 14 · 30
             </button>
-            <button type="button" onclick="setEspacadaPreset('1-3-7-15-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-3-7-15-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+            <button type="button" onclick="setEspacadaPreset('1-3-7-15-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-3-7-15-30' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
               1 · 3 · 7 · 15 · 30
             </button>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 flex items-center justify-between gap-3">
+          <div class="p-3.5 rounded-2xl bg-brand-50/70 dark:bg-brand-950/30 border border-brand-100 dark:border-brand-900/40 flex items-center justify-between gap-3">
             <div>
               <p class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
                 Depois do último marco, repetir a cada <strong class="text-slate-900 dark:text-white">30 dias</strong> para sempre
@@ -2008,7 +2009,7 @@
                 ${revState.espacadaPreset.replace(/-/g, ' · ')} vira ${revState.espacadaPreset.replace(/-/g, ', ')}, 60, 90... até você encerrar.
               </p>
             </div>
-            <input type="checkbox" onchange="toggleEspacadaRepetir30(this.checked)" ${revState.espacadaRepetir30 ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-[#582be8] focus:ring-0 cursor-pointer shrink-0">
+            <input type="checkbox" onchange="toggleEspacadaRepetir30(this.checked)" ${revState.espacadaRepetir30 ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-brand-600 focus:ring-0 cursor-pointer shrink-0">
           </div>
 
           <div class="p-3.5 rounded-2xl bg-[#fbfbfa] dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/80 text-center">
@@ -2032,7 +2033,7 @@
           <div class="space-y-2 pt-1">
             ${revState.datasList.map((dt, idx) => `
               <div class="flex items-center gap-2">
-                <input type="date" value="${dt}" onchange="updateCustomDateVal(${idx}, this.value)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#582be8]">
+                <input type="date" value="${dt}" onchange="updateCustomDateVal(${idx}, this.value)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-600">
                 ${revState.datasList.length > 1 ? `
                   <button type="button" onclick="removeCustomDate(${idx})" class="p-2.5 rounded-xl text-slate-400 hover:text-rose-500">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -2043,7 +2044,7 @@
           </div>
 
           <div class="pt-1">
-            <button type="button" onclick="addCustomDate()" class="text-xs font-bold text-[#582be8] hover:underline flex items-center gap-1">
+            <button type="button" onclick="addCustomDate()" class="text-xs font-bold text-brand-600 hover:underline flex items-center gap-1">
               <span>+ Adicionar outra data</span>
             </button>
           </div>
@@ -2065,13 +2066,13 @@
           <div class="text-center">
             <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Frequência</span>
             <div class="flex items-center justify-center gap-2">
-              <button type="button" onclick="setRecorrenteFreq('semanal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'semanal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              <button type="button" onclick="setRecorrenteFreq('semanal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'semanal' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
                 Semanal
               </button>
-              <button type="button" onclick="setRecorrenteFreq('quinzenal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'quinzenal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              <button type="button" onclick="setRecorrenteFreq('quinzenal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'quinzenal' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
                 Quinzenal
               </button>
-              <button type="button" onclick="setRecorrenteFreq('mensal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'mensal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              <button type="button" onclick="setRecorrenteFreq('mensal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'mensal' ? 'bg-brand-600 text-white border border-brand-600' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-brand-600'}">
                 Mensal
               </button>
             </div>
@@ -2097,7 +2098,7 @@
             <input id="recComecaEmInput" type="date" value="${revState.recorrenteDataInicio}" onchange="updateRecorrenteCampos()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none">
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 flex items-center justify-between gap-3">
+          <div class="p-3.5 rounded-2xl bg-brand-50/70 dark:bg-brand-950/30 border border-brand-100 dark:border-brand-900/40 flex items-center justify-between gap-3">
             <div>
               <p class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
                 Continuar até eu encerrar
@@ -2106,7 +2107,7 @@
                 Você pode desligar a sequência a qualquer momento.
               </p>
             </div>
-            <input id="recContinuarCheck" type="checkbox" onchange="updateRecorrenteCampos()" ${revState.recorrenteContinuar ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-[#582be8] focus:ring-0 cursor-pointer shrink-0">
+            <input id="recContinuarCheck" type="checkbox" onchange="updateRecorrenteCampos()" ${revState.recorrenteContinuar ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-brand-600 focus:ring-0 cursor-pointer shrink-0">
           </div>
 
           <div class="p-3.5 rounded-2xl bg-[#fbfbfa] dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/80 text-center">
@@ -2262,7 +2263,7 @@
             <span class="text-xs font-bold ${isSelected ? 'text-brand-600 dark:text-brand-400' : 'text-slate-700 dark:text-slate-300'}">${dia}</span>
             <div class="flex items-center gap-1">
               ${temEstudo ? '<span class="w-2 h-2 rounded-full bg-emerald-500"></span>' : ''}
-              ${temRevisao ? '<span class="w-2 h-2 rounded-full bg-purple-500"></span>' : ''}
+              ${temRevisao ? '<span class="w-2 h-2 rounded-full bg-blue-500"></span>' : ''}
             </div>
           </div>
         `;
@@ -2311,15 +2312,15 @@
       }
 
       if (revisoesDia.length > 0) {
-        html += `<span class="text-[10px] font-black uppercase text-purple-600 block mb-2 mt-4">Revisões Programadas:</span>`;
+        html += `<span class="text-[10px] font-black uppercase text-blue-600 block mb-2 mt-4">Revisões Programadas:</span>`;
         revisoesDia.forEach(r => {
           html += `
-            <div class="p-3 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 mb-2 flex items-center justify-between">
+            <div class="p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 mb-2 flex items-center justify-between">
               <div>
                 <span class="text-xs font-bold text-slate-800 dark:text-white block">${r.discNome}</span>
                 <span class="text-[10px] text-slate-500 block">${r.topicoNome}</span>
               </div>
-              <button onclick="concluirRevisao('${r.id}')" class="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-[10px] font-bold uppercase transition">
+              <button onclick="concluirRevisao('${r.id}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase transition">
                 Feito
               </button>
             </div>
@@ -2783,7 +2784,7 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-400">
+                <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-400">
                   ${sim.modelo === 'certo_errado' ? 'CERTO / ERRADO' : 'MÚLTIPLA ESCOLHA'}
                 </span>
                 <span class="text-xs font-bold text-slate-400">Banca: ${sim.banca}</span>
@@ -3198,7 +3199,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `estudoadapt_backup_${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `odisseia_backup_${new Date().toISOString().split('T')[0]}.json`;
       a.click();
     }
     function restaurarBackupTexto() {
