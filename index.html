@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Odisseia</title>
+  <title>Odisseia · A Jornada Épica</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -75,7 +75,6 @@
           <button id="syncModalBtn" title="Backup e Sincronização" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
           </button>
-          <!-- Botão de Recolher -->
           <button onclick="toggleSidebar()" title="Recolher Menu" class="p-1.5 rounded-xl text-slate-400 hover:text-brand-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
           </button>
@@ -135,7 +134,7 @@
         <div onclick="openManagePrepsModal()" class="cursor-pointer bg-slate-50 dark:bg-slate-800/70 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 hover:border-brand-300 transition group">
           <div class="flex items-center justify-between mb-1">
             <span class="text-[9px] font-black tracking-wider text-slate-400 uppercase">PREPARAÇÃO ATIVA</span>
-            <span id="sidePrepFaseBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400">PRÉ-EDITAL</span>
+            <span id="sidePrepFaseBadge" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400">PRÉ-EDITAL</span>
           </div>
           <p id="sidePrepTitle" class="text-xs font-black text-slate-900 dark:text-white truncate">Carregando...</p>
           <p id="sidePrepCargo" class="text-[10px] text-brand-600 dark:text-brand-400 font-semibold truncate">...</p>
@@ -191,13 +190,13 @@
             <div>
               <div class="flex items-center justify-between text-xs mb-1">
                 <div class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
                   <span class="text-[11px] text-slate-300 font-medium">Questões</span>
                 </div>
                 <span id="sideMetaSemanaQuestoesText" class="text-slate-400 font-mono text-[10px]">0/0 Q · 0%</span>
               </div>
               <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div id="sideMetaSemanaQuestoesBar" class="bg-blue-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                <div id="sideMetaSemanaQuestoesBar" class="bg-violet-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
               </div>
             </div>
           </div>
@@ -314,7 +313,7 @@
       <div id="editalDisciplinasContainer" class="space-y-6"></div>
     </div>
 
-    <!-- ABA 3: SESSÃO & REVISÕES -->
+    <!-- ABA 3: SESSÃO & REVISÕES (MINI PAINEL DO CRONÔMETRO + REVISÕES REFORMULADAS) -->
     <div id="tab-sessao" class="tab-content hidden space-y-6">
       <div>
         <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Sessão de Estudos & Revisões</h1>
@@ -402,7 +401,7 @@
               <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">Modalidade do Estudo</label>
               <div class="flex flex-wrap gap-2" id="modalityPillsContainer">
                 <button type="button" onclick="toggleModality(this, 'Teoria')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">📖 Teoria</button>
-                <button type="button" onclick="toggleModality(this, 'Questões')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">✍️️ Questões</button>
+                <button type="button" onclick="toggleModality(this, 'Questões')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">✍️ Questões</button>
                 <button type="button" onclick="toggleModality(this, 'Lei Seca')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">⚖️ Lei Seca</button>
                 <button type="button" onclick="toggleModality(this, 'Revisão')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">🔄 Revisão</button>
                 <button type="button" onclick="toggleModality(this, 'Jurisprudência')" class="mod-pill px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400 hover:border-brand-500 transition">🏛️ Jurisprudência</button>
@@ -586,7 +585,7 @@
         </div>
         <div class="flex items-center gap-2">
           <button onclick="resetCicloRodada()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs uppercase tracking-wider transition">Reiniciar Rodada</button>
-          <button onclick="openAddCicloModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm">+ Adicionar ao Ciclo</button>
+          <button onclick="openGerenciarCicloModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm">+ Adicionar ao Ciclo</button>
         </div>
       </div>
 
@@ -938,33 +937,39 @@
     </div>
   </div>
 
-  <!-- MODAL: ADICIONAR AO CICLO -->
-  <div id="modalAddCiclo" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+  <!-- MODAL: GERENCIAR ITEM DO CICLO (Adicionar / Editar) -->
+  <div id="modalGerenciarCiclo" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#151e32] w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
-        <h2 class="text-base font-black text-slate-900 dark:text-white">Adicionar Matéria ao Ciclo</h2>
-        <button onclick="closeAddCicloModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+        <h2 id="modalGerenciarCicloTitle" class="text-base font-black text-slate-900 dark:text-white">Adicionar Matéria ao Ciclo</h2>
+        <button onclick="closeGerenciarCicloModal()" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
+
+      <input type="hidden" id="cicloItemIdx" />
+
       <div class="space-y-4 mb-5">
         <div>
           <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Disciplina do Edital</label>
-          <select id="cicloDiscSelect" onchange="updateCicloTopicosSelect()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+          <select id="cicloDiscSelect" onchange="updateCicloTopicosUI()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
             <!-- Renderizado dinamicamente -->
           </select>
         </div>
+
         <div>
-          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tópico ou Subtópico</label>
-          <select id="cicloTopicoSelect" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
-            <!-- Renderizado dinamicamente -->
-          </select>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tópicos Selecionados</label>
+          <div id="cicloTopicosContainer" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium max-h-40 overflow-y-auto space-y-2">
+            <!-- Checkboxes Renderizados dinamicamente -->
+          </div>
+          <p class="text-[9px] text-slate-400 mt-1">Marque um ou vários tópicos para formar este bloco de estudo.</p>
         </div>
+
         <div>
           <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tempo na Rodada (Minutos)</label>
           <input id="cicloMinutosInput" type="number" min="10" step="10" value="90" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
         </div>
       </div>
-      <button onclick="salvarNovoCicloItem()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
-        Adicionar ao Ciclo
+      <button onclick="salvarCicloItem()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
+        Salvar no Ciclo
       </button>
     </div>
   </div>
@@ -1083,8 +1088,20 @@
             }
           ],
           ciclo: [
-            { discId: 'disc_1', nome: 'Direito Administrativo', topicoId: null, topicoNome: 'Estudo Geral', minutos: 90, concluido: false },
-            { discId: 'disc_2', nome: 'Língua Portuguesa', topicoId: null, topicoNome: 'Estudo Geral', minutos: 90, concluido: false }
+            { 
+              discId: 'disc_1', 
+              nome: 'NOÇÕES DE DIREITO ADMINISTRATIVO E LEGISLAÇÃO', 
+              topicos: [{id: 'top_1_1', nome: '↳ 1.1 Administração direta, indireta e fundacional.'}], 
+              minutos: 90, 
+              concluido: false 
+            },
+            { 
+              discId: 'disc_2', 
+              nome: 'LÍNGUA PORTUGUESA & REDAÇÃO OFICIAL', 
+              topicos: [{id: 'top_p1', nome: '1 Compreensão e interpretação de textos de gêneros variados.'}], 
+              minutos: 90, 
+              concluido: false 
+            }
           ]
         }
       ],
@@ -2639,28 +2656,48 @@
         return;
       }
 
-      listContainer.innerHTML = ciclo.map((item, idx) => `
-        <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-4">
-          <div class="flex items-center gap-3 w-full sm:w-auto">
-            <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-black text-xs flex items-center justify-center shrink-0">
-              ${idx + 1}
-            </span>
-            <div class="overflow-hidden">
-              <span class="text-xs font-black text-slate-900 dark:text-white block leading-tight truncate max-w-[200px] sm:max-w-md ${item.concluido ? 'line-through opacity-50' : ''}">${item.nome}</span>
-              <span class="text-[10px] text-slate-500 block mt-0.5 truncate max-w-[180px] sm:max-w-xs ${item.concluido ? 'line-through opacity-50' : ''}">${item.topicoNome || 'Estudo Geral'}</span>
-              <span class="text-[10px] text-brand-600 font-mono font-bold mt-1 block">${item.minutos} min programados</span>
+      listContainer.innerHTML = ciclo.map((item, idx) => {
+        // Exibição dos tópicos selecionados de forma limpa
+        const topicsList = item.topicos && item.topicos.length > 0 
+           ? item.topicos.map(t => `<span class="inline-block px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 mr-1 mb-1 truncate max-w-[180px]">${t.nome}</span>`).join('')
+           : (item.topicoNome && item.topicoNome !== 'Estudo Geral' 
+                ? `<span class="inline-block px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 mr-1 mb-1 truncate max-w-[180px]">${item.topicoNome}</span>` 
+                : `<span class="inline-block px-1.5 py-0.5 bg-brand-100 dark:bg-brand-900/40 rounded text-[9px] text-brand-700 dark:text-brand-300 mr-1 mb-1">Estudo Geral da Disciplina</span>`);
+
+        return `
+          <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full sm:w-auto overflow-hidden">
+              <div class="flex flex-col items-center justify-center gap-1 shrink-0">
+                <button onclick="moverCicloItem(${idx}, -1)" class="text-slate-300 hover:text-brand-600 transition" title="Mover para cima">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+                </button>
+                <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-black text-xs flex items-center justify-center">
+                  ${idx + 1}
+                </span>
+                <button onclick="moverCicloItem(${idx}, 1)" class="text-slate-300 hover:text-brand-600 transition" title="Mover para baixo">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+              </div>
+              <div class="overflow-hidden">
+                <span class="text-xs font-black text-slate-900 dark:text-white block leading-tight truncate max-w-[200px] sm:max-w-md ${item.concluido ? 'line-through opacity-50' : ''}">${item.nome}</span>
+                <div class="mt-1 flex flex-wrap ${item.concluido ? 'opacity-50' : ''}">${topicsList}</div>
+                <span class="text-[10px] text-brand-600 font-mono font-bold mt-1 block">${item.minutos} min programados</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+              <button onclick="toggleCicloItem(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${item.concluido ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}">
+                ${item.concluido ? '✓ Concluído' : 'Marcar Feito'}
+              </button>
+              <button onclick="openEditCicloModal(${idx})" title="Editar Bloco do Ciclo" class="p-1.5 text-slate-400 hover:text-brand-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </button>
+              <button onclick="excluirCicloItem(${idx})" title="Remover do Ciclo" class="p-1.5 text-slate-400 hover:text-rose-500 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m4 0V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"/></svg>
+              </button>
             </div>
           </div>
-          <div class="flex items-center gap-2 shrink-0">
-            <button onclick="toggleCicloItem(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${item.concluido ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}">
-              ${item.concluido ? '✓ Concluído' : 'Marcar Feito'}
-            </button>
-            <button onclick="excluirCicloItem(${idx})" class="p-1.5 text-slate-400 hover:text-rose-500 transition">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m4 0V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"/></svg>
-            </button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function toggleCicloItem(idx) {
@@ -2679,70 +2716,120 @@
       renderCiclosTab();
     }
 
+    function moverCicloItem(idx, dir) {
+      const prep = getPrepAtiva();
+      if (!prep.ciclo) return;
+      const arr = prep.ciclo;
+      
+      if (dir === -1 && idx > 0) {
+        [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+      } else if (dir === 1 && idx < arr.length - 1) {
+        [arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]];
+      }
+      salvarDB();
+      renderCiclosTab();
+    }
+
     function openAddCicloModal() {
       const prep = getPrepAtiva();
-      const sel = document.getElementById('cicloDiscSelect');
-      
       if (!prep.edital || prep.edital.length === 0) {
         alert('Você precisa cadastrar disciplinas no Edital Vertical primeiro!');
         return;
       }
 
+      document.getElementById('modalGerenciarCicloTitle').innerText = 'Adicionar Matéria ao Ciclo';
+      document.getElementById('cicloItemIdx').value = '';
+
+      const sel = document.getElementById('cicloDiscSelect');
       sel.innerHTML = prep.edital.map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
-      updateCicloTopicosSelect();
+      
+      updateCicloTopicosUI([]);
       document.getElementById('cicloMinutosInput').value = 90;
-      document.getElementById('modalAddCiclo').classList.remove('hidden');
-    }
-    
-    function closeAddCicloModal() {
-      document.getElementById('modalAddCiclo').classList.add('hidden');
+      document.getElementById('modalGerenciarCiclo').classList.remove('hidden');
     }
 
-    function updateCicloTopicosSelect() {
+    function openEditCicloModal(idx) {
+      const prep = getPrepAtiva();
+      const item = prep.ciclo[idx];
+      
+      document.getElementById('modalGerenciarCicloTitle').innerText = 'Editar Bloco de Estudo do Ciclo';
+      document.getElementById('cicloItemIdx').value = idx;
+      
+      const sel = document.getElementById('cicloDiscSelect');
+      sel.innerHTML = prep.edital.map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
+      sel.value = item.discId;
+      
+      // Mapeia tópicos antigos (topicoId) ou novos (array topicos)
+      const selectedIds = item.topicos ? item.topicos.map(t => t.id) : (item.topicoId ? [item.topicoId] : []);
+      updateCicloTopicosUI(selectedIds);
+      
+      document.getElementById('cicloMinutosInput').value = item.minutos;
+      document.getElementById('modalGerenciarCiclo').classList.remove('hidden');
+    }
+
+    function closeGerenciarCicloModal() {
+      document.getElementById('modalGerenciarCiclo').classList.add('hidden');
+    }
+
+    function updateCicloTopicosUI(selectedIds = []) {
       const prep = getPrepAtiva();
       const discId = document.getElementById('cicloDiscSelect').value;
-      const topSelect = document.getElementById('cicloTopicoSelect');
+      const container = document.getElementById('cicloTopicosContainer');
 
-      if (!discId) {
-        topSelect.innerHTML = '<option value="">Estudo Geral da Disciplina</option>';
-        return;
-      }
       const disc = prep.edital.find(d => d.id === discId);
       if (!disc || !disc.topicos || disc.topicos.length === 0) {
-        topSelect.innerHTML = '<option value="">Nenhum tópico cadastrado</option>';
+        container.innerHTML = '<span class="text-slate-400 italic">Nenhum tópico cadastrado nesta disciplina. Cadastre no Edital Vertical.</span>';
         return;
       }
-      topSelect.innerHTML = '<option value="">Estudo Geral da Disciplina</option>' + 
-        disc.topicos.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
+
+      container.innerHTML = disc.topicos.map(t => `
+        <label class="flex items-start gap-2 cursor-pointer group p-1 hover:bg-white dark:hover:bg-slate-700/50 rounded transition">
+          <input type="checkbox" value="${t.id}" data-nome="${t.nome}" class="mt-0.5 rounded border-slate-300 text-brand-600 focus:ring-brand-500" ${selectedIds.includes(t.id) ? 'checked' : ''}>
+          <span class="group-hover:text-brand-600 transition text-slate-700 dark:text-slate-300 leading-tight">${t.nome}</span>
+        </label>
+      `).join('');
     }
 
-    function salvarNovoCicloItem() {
+    function salvarCicloItem() {
       const prep = getPrepAtiva();
+      const idxStr = document.getElementById('cicloItemIdx').value;
       const discId = document.getElementById('cicloDiscSelect').value;
-      const topicoId = document.getElementById('cicloTopicoSelect').value;
       const minutos = parseInt(document.getElementById('cicloMinutosInput').value) || 90;
       
       const disc = prep.edital.find(d => d.id === discId);
       if (!disc) return;
 
-      const top = disc.topicos ? disc.topicos.find(t => t.id === topicoId) : null;
+      const checkboxes = document.querySelectorAll('#cicloTopicosContainer input[type="checkbox"]:checked');
+      const topicosSelecionados = Array.from(checkboxes).map(cb => ({
+        id: cb.value,
+        nome: cb.getAttribute('data-nome')
+      }));
 
       if (!prep.ciclo) prep.ciclo = [];
-      prep.ciclo.push({
+
+      const newItemData = {
         discId: disc.id,
         nome: disc.nome,
-        topicoId: topicoId || null,
-        topicoNome: top ? top.nome : 'Estudo Geral',
+        topicos: topicosSelecionados,
         minutos: minutos,
         concluido: false
-      });
+      };
+
+      if (idxStr !== '') {
+        const idx = parseInt(idxStr);
+        newItemData.concluido = prep.ciclo[idx].concluido; // Preserva status de concluído
+        prep.ciclo[idx] = newItemData;
+      } else {
+        prep.ciclo.push(newItemData);
+      }
 
       salvarDB();
-      closeAddCicloModal();
+      closeGerenciarCicloModal();
       renderCiclosTab();
     }
 
     function excluirCicloItem(idx) {
+      if (!confirm('Tem certeza que deseja remover esta disciplina da rodada do ciclo?')) return;
       const prep = getPrepAtiva();
       if (!prep.ciclo) return;
       prep.ciclo.splice(idx, 1);
