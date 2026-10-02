@@ -322,16 +322,16 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Coluna da Esquerda (Cronômetro + Registro) -->
-        <div class="lg:col-span-8 space-y-6">
+        <div class="lg:col-span-7 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             
             <!-- Barra Superior de Seleção de Modo -->
             <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100 dark:border-slate-800 flex-wrap gap-3">
               <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold">
                 <button id="modeTimerBtn" onclick="setSessionMode('timer')" class="px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">⏱️ Cronômetro Focado</button>
-                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️ Lançamento Manual</button>
+                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️️ Lançamento Manual</button>
               </div>
-              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Monitoramento em Tempo Real</span>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Registro de Estudos</span>
             </div>
 
             <!-- MINI PAINEL DO CRONÔMETRO ESTILIZADO -->
@@ -395,7 +395,7 @@
               </div>
               <div>
                 <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Data do Estudo</label>
-                <input id="sessionDateInput" onchange="renderRevInputs()" type="date" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                <input id="sessionDateInput" onchange="atualizarDataBaseRevisao()" type="date" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
               </div>
             </div>
 
@@ -435,39 +435,41 @@
         </div>
 
         <!-- Coluna da Direita (Painel Reformulado de Agendamento de Revisões) -->
-        <div class="lg:col-span-4 space-y-6">
+        <div class="lg:col-span-5 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
-            <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-slate-800">
-              <h2 class="text-sm font-black uppercase text-slate-900 dark:text-white tracking-wider flex items-center gap-2">
-                <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span>Agendador de Revisões</span>
-              </h2>
-              <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300">AUTOMÁTICO</span>
+            
+            <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 text-center mb-4">
+              Como você quer revisar?
+            </h2>
+
+            <!-- Botões em Pílula Superiores -->
+            <div class="flex items-center justify-center gap-2 mb-5">
+              <button type="button" id="tabRevEspacada" onclick="setRevMethod('espacada')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-[#582be8] bg-[#582be8] text-white shadow-sm">
+                Espaçada
+              </button>
+              <button type="button" id="tabRevDatas" onclick="setRevMethod('datas')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]">
+                Escolher datas
+              </button>
+              <button type="button" id="tabRevRecorrente" onclick="setRevMethod('recorrente')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]">
+                Recorrente
+              </button>
             </div>
 
-            <div class="space-y-4">
-              <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Estratégia de Repetição</label>
-                <select id="revMetodoSelect" onchange="renderRevInputs()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
-                  <option value="espacada">Ciclo de Ebbinghaus (D+1, D+7 e D+30)</option>
-                  <option value="personalizada">Data Específica Fixa</option>
-                  <option value="recorrente">Intervalo Recorrente (a cada X dias)</option>
-                </select>
-              </div>
-
-              <!-- Container Dinâmico e Estruturado do Método de Revisão -->
-              <div id="revMetodoFieldsContainer"></div>
-
-              <div class="p-3.5 bg-gradient-to-br from-indigo-50/70 to-purple-50/70 dark:from-indigo-950/30 dark:to-purple-950/30 rounded-2xl border border-indigo-100 dark:border-indigo-900/60 text-xs text-indigo-950 dark:text-indigo-200 space-y-1">
-                <span class="font-extrabold flex items-center gap-1.5 text-brand-700 dark:text-brand-300">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  Integração com o Calendário
-                </span>
-                <p class="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
-                  Ao salvar a sessão, as datas calculadas são marcadas automaticamente na aba <strong>Calendário & Revisões</strong>.
-                </p>
-              </div>
+            <!-- Conteúdo Dinâmico Renderizado Fiel às Telas -->
+            <div id="revDynamicContentContainer" class="space-y-4">
+              <!-- Injetado dinamicamente via JS -->
             </div>
+
+            <!-- Botão Salvar Verde Pastel -->
+            <div class="mt-5 pt-2">
+              <button type="button" onclick="salvarApenasRevisao()" title="Agenda as revisões calculadas diretamente no Calendário" class="w-full py-3.5 rounded-2xl bg-[#a3d9bc] hover:bg-[#8ecba8] active:scale-[0.99] text-slate-800 font-extrabold text-sm tracking-wide transition shadow-sm flex items-center justify-center gap-2">
+                <span>Salvar Revisão Manual</span>
+              </button>
+              <p class="text-[10px] text-center text-slate-400 mt-2 font-medium">
+                *Agenda diretamente no Calendário para a matéria selecionada ao lado.
+              </p>
+            </div>
+
           </div>
         </div>
       </div>
@@ -747,6 +749,70 @@
     </div>
   </div>
 
+  <!-- MODAL: EDITAR PREPARAÇÃO -->
+  <div id="modalEditPrep" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#151e32] w-full max-w-xl rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-5">
+        <h2 class="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+          <span>Editar Preparação</span>
+        </h2>
+        <button onclick="closeEditPrepModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+
+      <input type="hidden" id="editPrepId">
+
+      <div class="space-y-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Nome do Concurso</label>
+            <input id="editPrepNome" type="text" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Cargo Almejado</label>
+            <input id="editPrepCargo" type="text" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Banca Alvo</label>
+            <select id="editPrepBanca" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="Cebraspe">Cebraspe</option>
+              <option value="FGV">FGV</option>
+              <option value="FCC">FCC</option>
+              <option value="Vunesp">Vunesp</option>
+              <option value="Quadrix">Quadrix</option>
+              <option value="Instituto AOCP">Instituto AOCP</option>
+              <option value="Outra">Outra</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Fase</label>
+            <select id="editPrepFase" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="pre">Pré-Edital</option>
+              <option value="pos">Pós-Edital</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Meta Diária (Horas)</label>
+            <input id="editPrepMetaHoras" type="number" step="0.5" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+          <div>
+            <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1">Meta Diária (Questões)</label>
+            <input id="editPrepMetaQuestoes" type="number" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+          </div>
+        </div>
+      </div>
+
+      <button onclick="salvarEdicaoPrep()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
+        Salvar Alterações
+      </button>
+    </div>
+  </div>
+
   <!-- MODAL: VIRADA DE EDITAL -->
   <div id="modalVirada" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#151e32] w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
@@ -1005,13 +1071,25 @@
     let expandedPrepCards = new Set(['prep_default']);
     let collapsedDisciplinas = new Set();
 
+    let revState = {
+      method: 'espacada',
+      espacadaPreset: '1-7-30',
+      espacadaRepetir30: false,
+      datasList: [],
+      recorrenteFreq: 'semanal',
+      recorrenteACada: 1,
+      recorrentePeriodo: 'semana(s)',
+      recorrenteDataInicio: '',
+      recorrenteContinuar: true
+    };
+
     // ================= INICIALIZAÇÃO =================
     window.addEventListener('DOMContentLoaded', () => {
       carregarDB();
       aplicarTema();
       initDateInputs();
       switchTab('dashboard');
-      renderRevInputs();
+      initRevSchedulerDefaults();
 
       document.getElementById('themeToggleBtn').addEventListener('click', toggleTema);
       document.getElementById('syncModalBtn').addEventListener('click', openSyncModal);
@@ -1139,7 +1217,6 @@
         badge.className = 'text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400';
       }
 
-      // Cálculos Hoje
       const hojeStr = new Date().toISOString().split('T')[0];
       const sessoesHoje = DB.sessoes.filter(s => s.prepId === prep.id && s.data === hojeStr);
 
@@ -1162,7 +1239,6 @@
       document.getElementById('sideMetaHojeQuestoesText').innerText = `${qHoje}/${metaQHoje} Q · ${pctQHoje}%`;
       document.getElementById('sideMetaHojeQuestoesBar').style.width = `${pctQHoje}%`;
 
-      // Cálculos Semana
       const now = new Date();
       const primeiroDiaSemana = new Date(now.setDate(now.getDate() - now.getDay()));
       primeiroDiaSemana.setHours(0,0,0,0);
@@ -1580,14 +1656,14 @@
       renderEditalTab();
     }
 
-    // ================= ABA 3: SESSÃO & REVISÕES =================
+    // ================= ABA 3: SESSÃO & NOVO AGENDADOR =================
     function renderSessaoTab() {
       const prep = getPrepAtiva();
       const discSelect = document.getElementById('sessionDiscSelect');
       discSelect.innerHTML = '<option value="">Selecione uma disciplina...</option>' + 
         (prep.edital || []).map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
       updateSessionTopicosSelect();
-      renderRevInputs();
+      renderRevSchedulerUI();
     }
 
     function updateSessionTopicosSelect() {
@@ -1684,6 +1760,358 @@
       dot.className = 'w-2 h-2 rounded-full bg-slate-400';
     }
 
+    // ================= NOVO AGENDADOR DE REVISÕES =================
+    function initRevSchedulerDefaults() {
+      const hoje = new Date().toISOString().split('T')[0];
+      const amanha = addDaysDateStr(hoje, 1);
+      revState.recorrenteDataInicio = amanha;
+      if (revState.datasList.length === 0) {
+        revState.datasList = [amanha];
+      }
+    }
+
+    function atualizarDataBaseRevisao() {
+      const sDate = document.getElementById('sessionDateInput').value;
+      if (sDate) {
+        revState.recorrenteDataInicio = addDaysDateStr(sDate, 1);
+      }
+      renderRevSchedulerUI();
+    }
+
+    function setRevMethod(method) {
+      revState.method = method;
+      renderRevSchedulerUI();
+    }
+
+    function setEspacadaPreset(preset) {
+      revState.espacadaPreset = preset;
+      renderRevSchedulerUI();
+    }
+
+    function toggleEspacadaRepetir30(checked) {
+      revState.espacadaRepetir30 = checked;
+      renderRevSchedulerUI();
+    }
+
+    function addCustomDate() {
+      if (revState.datasList.length >= 24) {
+        alert('Limite máximo de 24 datas atingido.');
+        return;
+      }
+      const lastDate = revState.datasList[revState.datasList.length - 1] || new Date().toISOString().split('T')[0];
+      revState.datasList.push(addDaysDateStr(lastDate, 7));
+      renderRevSchedulerUI();
+    }
+
+    function removeCustomDate(idx) {
+      if (revState.datasList.length <= 1) return;
+      revState.datasList.splice(idx, 1);
+      renderRevSchedulerUI();
+    }
+
+    function updateCustomDateVal(idx, val) {
+      revState.datasList[idx] = val;
+      renderRevSchedulerUI();
+    }
+
+    function setRecorrenteFreq(freq) {
+      revState.recorrenteFreq = freq;
+      if (freq === 'semanal') {
+        revState.recorrenteACada = 1;
+        revState.recorrentePeriodo = 'semana(s)';
+      } else if (freq === 'quinzenal') {
+        revState.recorrenteACada = 2;
+        revState.recorrentePeriodo = 'semana(s)';
+      } else if (freq === 'mensal') {
+        revState.recorrenteACada = 1;
+        revState.recorrentePeriodo = 'mês(es)';
+      }
+      renderRevSchedulerUI();
+    }
+
+    function updateRecorrenteCampos() {
+      const aCada = parseInt(document.getElementById('recACadaInput')?.value) || 1;
+      const periodo = document.getElementById('recPeriodoSelect')?.value || 'semana(s)';
+      const dtIni = document.getElementById('recComecaEmInput')?.value;
+      const cont = document.getElementById('recContinuarCheck')?.checked ?? true;
+
+      revState.recorrenteACada = aCada;
+      revState.recorrentePeriodo = periodo;
+      if (dtIni) revState.recorrenteDataInicio = dtIni;
+      revState.recorrenteContinuar = cont;
+
+      renderRevSchedulerUI();
+    }
+
+    function addDaysDateStr(dateStr, days) {
+      const [y, m, d] = (dateStr || new Date().toISOString().split('T')[0]).split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      dt.setDate(dt.getDate() + days);
+      const yyyy = dt.getFullYear();
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function addMonthsDateStr(dateStr, months) {
+      const [y, m, d] = (dateStr || new Date().toISOString().split('T')[0]).split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      dt.setMonth(dt.getMonth() + months);
+      const yyyy = dt.getFullYear();
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function formatarDiaMes(dateStr) {
+      if (!dateStr) return '';
+      const p = dateStr.split('-');
+      if (p.length < 3) return dateStr;
+      return `${p[2]}/${p[1]}`;
+    }
+
+    function calcularDatasPlanejadas() {
+      const baseEstudoStr = document.getElementById('sessionDateInput')?.value || new Date().toISOString().split('T')[0];
+
+      if (revState.method === 'espacada') {
+        let offsets = [1, 7, 30];
+        if (revState.espacadaPreset === '1-7-14-30') offsets = [1, 7, 14, 30];
+        if (revState.espacadaPreset === '1-3-7-15-30') offsets = [1, 3, 7, 15, 30];
+
+        const datas = offsets.map(dias => addDaysDateStr(baseEstudoStr, dias));
+
+        if (revState.espacadaRepetir30) {
+          datas.push(addDaysDateStr(baseEstudoStr, 60));
+          datas.push(addDaysDateStr(baseEstudoStr, 90));
+          datas.push(addDaysDateStr(baseEstudoStr, 120));
+        }
+        return datas;
+      } 
+      
+      if (revState.method === 'datas') {
+        const sorted = [...revState.datasList].filter(Boolean).sort();
+        return sorted.length > 0 ? sorted : [addDaysDateStr(baseEstudoStr, 1)];
+      }
+
+      if (revState.method === 'recorrente') {
+        const ini = revState.recorrenteDataInicio || addDaysDateStr(baseEstudoStr, 1);
+        const datas = [ini];
+        const step = revState.recorrenteACada || 1;
+        const periodo = revState.recorrentePeriodo || 'semana(s)';
+
+        for (let i = 1; i <= 5; i++) {
+          if (periodo.includes('semana')) {
+            datas.push(addDaysDateStr(ini, i * step * 7));
+          } else if (periodo.includes('dia')) {
+            datas.push(addDaysDateStr(ini, i * step));
+          } else {
+            datas.push(addMonthsDateStr(ini, i * step));
+          }
+        }
+        return datas;
+      }
+
+      return [addDaysDateStr(baseEstudoStr, 1)];
+    }
+
+    function renderRevSchedulerUI() {
+      const container = document.getElementById('revDynamicContentContainer');
+      if (!container) return;
+
+      const tabs = [
+        { id: 'tabRevEspacada', m: 'espacada' },
+        { id: 'tabRevDatas', m: 'datas' },
+        { id: 'tabRevRecorrente', m: 'recorrente' }
+      ];
+      tabs.forEach(t => {
+        const el = document.getElementById(t.id);
+        if (el) {
+          if (revState.method === t.m) {
+            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-[#582be8] bg-[#582be8] text-white shadow-sm';
+          } else {
+            el.className = 'px-4 py-1.5 rounded-full text-xs font-bold transition border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-[#582be8]';
+          }
+        }
+      });
+
+      const datas = calcularDatasPlanejadas();
+      const baseEstudoStr = document.getElementById('sessionDateInput')?.value || new Date().toISOString().split('T')[0];
+
+      if (revState.method === 'espacada') {
+        const proximasStr = datas.slice(0, 5).map(formatarDiaMes).join(' · ');
+
+        container.innerHTML = `
+          <p class="text-xs text-slate-500 dark:text-slate-400 text-center leading-relaxed">
+            Marcos depois do estudo. Combine com a repetição abaixo para não precisar criar um plano só da parte mensal.
+          </p>
+
+          <div class="flex items-center justify-center gap-2 pt-1 flex-wrap">
+            <button type="button" onclick="setEspacadaPreset('1-7-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              1 · 7 · 30
+            </button>
+            <button type="button" onclick="setEspacadaPreset('1-7-14-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-7-14-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              1 · 7 · 14 · 30
+            </button>
+            <button type="button" onclick="setEspacadaPreset('1-3-7-15-30')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.espacadaPreset === '1-3-7-15-30' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+              1 · 3 · 7 · 15 · 30
+            </button>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
+                Depois do último marco, repetir a cada <strong class="text-slate-900 dark:text-white">30 dias</strong> para sempre
+              </p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                ${revState.espacadaPreset.replace(/-/g, ' · ')} vira ${revState.espacadaPreset.replace(/-/g, ', ')}, 60, 90... até você encerrar.
+              </p>
+            </div>
+            <input type="checkbox" onchange="toggleEspacadaRepetir30(this.checked)" ${revState.espacadaRepetir30 ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-[#582be8] focus:ring-0 cursor-pointer shrink-0">
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-[#fbfbfa] dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/80 text-center">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">
+              Em ${revState.espacadaPreset.replace(/-/g, ', ')} dias
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1 inline-block">
+              Próximas: ${proximasStr}${revState.espacadaRepetir30 ? ' · e continua' : ''}
+            </span>
+          </div>
+        `;
+      }
+      else if (revState.method === 'datas') {
+        const datasFormatadas = datas.map(formatarDiaMes).join(' · ');
+
+        container.innerHTML = `
+          <p class="text-xs text-slate-500 dark:text-slate-400 text-center leading-relaxed">
+            Escolha até 24 datas. Elas ficam em ordem e cada uma vira uma revisão.
+          </p>
+
+          <div class="space-y-2 pt-1">
+            ${revState.datasList.map((dt, idx) => `
+              <div class="flex items-center gap-2">
+                <input type="date" value="${dt}" onchange="updateCustomDateVal(${idx}, this.value)" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#582be8]">
+                ${revState.datasList.length > 1 ? `
+                  <button type="button" onclick="removeCustomDate(${idx})" class="p-2.5 rounded-xl text-slate-400 hover:text-rose-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                  </button>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="pt-1">
+            <button type="button" onclick="addCustomDate()" class="text-xs font-bold text-[#582be8] hover:underline flex items-center gap-1">
+              <span>+ Adicionar outra data</span>
+            </button>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-[#fbfbfa] dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/80 text-center">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">
+              ${revState.datasList.length} ${revState.datasList.length === 1 ? 'data escolhida' : 'datas escolhidas'}
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1 inline-block">
+              Próximas: ${datasFormatadas}
+            </span>
+          </div>
+        `;
+      }
+      else if (revState.method === 'recorrente') {
+        const proximasStr = datas.slice(0, 6).map(formatarDiaMes).join(' · ');
+
+        container.innerHTML = `
+          <div class="text-center">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Frequência</span>
+            <div class="flex items-center justify-center gap-2">
+              <button type="button" onclick="setRecorrenteFreq('semanal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'semanal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+                Semanal
+              </button>
+              <button type="button" onclick="setRecorrenteFreq('quinzenal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'quinzenal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+                Quinzenal
+              </button>
+              <button type="button" onclick="setRecorrenteFreq('mensal')" class="px-4 py-1.5 rounded-full text-xs font-bold transition ${revState.recorrenteFreq === 'mensal' ? 'bg-[#582be8] text-white border border-[#582be8]' : 'border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300'}">
+                Mensal
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <div>
+              <label class="block text-[11px] text-slate-400 font-semibold mb-1 text-center">A cada</label>
+              <input id="recACadaInput" type="number" min="1" value="${revState.recorrenteACada}" onchange="updateRecorrenteCampos()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold text-center focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 font-semibold mb-1 text-center">Período</label>
+              <select id="recPeriodoSelect" onchange="updateRecorrenteCampos()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none">
+                <option value="semana(s)" ${revState.recorrentePeriodo === 'semana(s)' ? 'selected' : ''}>semana(s)</option>
+                <option value="dia(s)" ${revState.recorrentePeriodo === 'dia(s)' ? 'selected' : ''}>dia(s)</option>
+                <option value="mês(es)" ${revState.recorrentePeriodo === 'mês(es)' ? 'selected' : ''}>mês(es)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] text-slate-400 font-semibold mb-1 text-center">Começa em</label>
+            <input id="recComecaEmInput" type="date" value="${revState.recorrenteDataInicio}" onchange="updateRecorrenteCampos()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none">
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
+                Continuar até eu encerrar
+              </p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                Você pode desligar a sequência a qualquer momento.
+              </p>
+            </div>
+            <input id="recContinuarCheck" type="checkbox" onchange="updateRecorrenteCampos()" ${revState.recorrenteContinuar ? 'checked' : ''} class="w-5 h-5 rounded border-slate-300 text-[#582be8] focus:ring-0 cursor-pointer shrink-0">
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-[#fbfbfa] dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/80 text-center">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 block">
+              ${revState.recorrenteFreq === 'semanal' ? 'Toda semana até você encerrar' : (revState.recorrenteFreq === 'quinzenal' ? 'A cada 2 semanas até você encerrar' : 'Todo mês até você encerrar')}
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1 inline-block">
+              Próximas: ${proximasStr}${revState.recorrenteContinuar ? ' · e continua' : ''}
+            </span>
+          </div>
+        `;
+      }
+    }
+
+    function salvarApenasRevisao() {
+      const prep = getPrepAtiva();
+      const discId = document.getElementById('sessionDiscSelect').value;
+      const topicoId = document.getElementById('sessionTopicoSelect').value;
+
+      if (!discId) {
+        alert('Por favor, selecione ao menos a Disciplina no formulário ao lado para vincular suas revisões.');
+        return;
+      }
+
+      const disc = prep.edital.find(d => d.id === discId);
+      const top = disc && disc.topicos ? disc.topicos.find(t => t.id === topicoId) : null;
+      const discNome = disc ? disc.nome : 'Disciplina Geral';
+      const topicoNome = top ? top.nome : 'Revisão Geral da Disciplina';
+
+      const datas = calcularDatasPlanejadas();
+
+      datas.forEach(dStr => {
+        DB.revisoes.push({
+          id: 'rev_' + Math.random().toString(36).substr(2, 9),
+          prepId: prep.id,
+          discNome: discNome,
+          topicoNome: topicoNome,
+          dataAlvo: dStr,
+          concluida: false
+        });
+      });
+
+      salvarDB();
+      renderCalendarioTab();
+      alert(`Sucesso! ${datas.length} revisão(ões) agendada(s) para "${discNome}" no seu Calendário.`);
+    }
+
     function salvarSessaoEstudo() {
       const prep = getPrepAtiva();
       const discId = document.getElementById('sessionDiscSelect').value;
@@ -1734,7 +2162,18 @@
       };
 
       DB.sessoes.unshift(novaSessao);
-      agendarRevisaoAutomatica(novaSessao);
+
+      const datas = calcularDatasPlanejadas();
+      datas.forEach(dStr => {
+        DB.revisoes.push({
+          id: 'rev_' + Math.random().toString(36).substr(2, 9),
+          prepId: novaSessao.prepId,
+          discNome: novaSessao.discNome,
+          topicoNome: novaSessao.topicoNome,
+          dataAlvo: dStr,
+          concluida: false
+        });
+      });
 
       salvarDB();
       resetTimer();
@@ -1743,128 +2182,8 @@
       document.getElementById('sessionAcertosInput').value = '0';
       document.getElementById('sessionErrosInput').value = '0';
 
-      alert('Sessão registrada com sucesso!');
+      alert('Sessão e revisões registradas com sucesso!');
       atualizarSideBarMetas();
-    }
-
-    // Reformulação Visual do Agendamento de Revisões
-    function renderRevInputs() {
-      const metodo = document.getElementById('revMetodoSelect').value;
-      const c = document.getElementById('revMetodoFieldsContainer');
-      const baseDateStr = document.getElementById('sessionDateInput').value || new Date().toISOString().split('T')[0];
-      const baseDate = new Date(baseDateStr + 'T00:00:00');
-
-      if (metodo === 'espacada') {
-        const d1 = new Date(baseDate); d1.setDate(d1.getDate() + 1);
-        const d7 = new Date(baseDate); d7.setDate(d7.getDate() + 7);
-        const d30 = new Date(baseDate); d30.setDate(d30.getDate() + 30);
-
-        c.innerHTML = `
-          <div class="space-y-2">
-            <span class="text-[9px] font-black uppercase text-slate-400 block mb-1">Prévia do Cronograma Calculado:</span>
-            
-            <div class="p-2.5 rounded-xl bg-purple-50/60 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/60 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-purple-600 text-white font-mono text-[10px] font-black flex items-center justify-center">D+1</span>
-                <div>
-                  <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">1ª Revisão (Fixação)</span>
-                  <span class="text-[10px] text-slate-400 font-mono">${formatarDataBR(d1.toISOString().split('T')[0])}</span>
-                </div>
-              </div>
-              <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400">24h depois</span>
-            </div>
-
-            <div class="p-2.5 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white font-mono text-[10px] font-black flex items-center justify-center">D+7</span>
-                <div>
-                  <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">2ª Revisão (Retenção)</span>
-                  <span class="text-[10px] text-slate-400 font-mono">${formatarDataBR(d7.toISOString().split('T')[0])}</span>
-                </div>
-              </div>
-              <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400">7 dias</span>
-            </div>
-
-            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-slate-700 text-white font-mono text-[10px] font-black flex items-center justify-center">D+30</span>
-                <div>
-                  <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">3ª Revisão (Longo Prazo)</span>
-                  <span class="text-[10px] text-slate-400 font-mono">${formatarDataBR(d30.toISOString().split('T')[0])}</span>
-                </div>
-              </div>
-              <span class="text-[10px] font-bold text-slate-500">30 dias</span>
-            </div>
-          </div>
-        `;
-      } else if (metodo === 'personalizada') {
-        const defDate = new Date(baseDate);
-        defDate.setDate(defDate.getDate() + 3);
-        const defStr = defDate.toISOString().split('T')[0];
-
-        c.innerHTML = `
-          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 space-y-2">
-            <label class="block text-[10px] font-black uppercase text-slate-500 dark:text-slate-400">Escolha a Data Exata da Revisão</label>
-            <input id="revCustomDate" type="date" value="${defStr}" class="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
-            <p class="text-[10px] text-slate-400">Um único lembrete de estudo será fixado nesta data.</p>
-          </div>
-        `;
-      } else {
-        c.innerHTML = `
-          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 space-y-2">
-            <label class="block text-[10px] font-black uppercase text-slate-500 dark:text-slate-400">Intervalo de Repetição (em dias)</label>
-            <div class="flex items-center gap-2">
-              <input id="revRecorrenteDias" type="number" value="7" min="1" class="w-24 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
-              <span class="text-xs text-slate-500 font-semibold">dias após a data do estudo</span>
-            </div>
-            <p class="text-[10px] text-slate-400">Ideal para ciclos de questões periódicas de leis extensas.</p>
-          </div>
-        `;
-      }
-    }
-
-    function agendarRevisaoAutomatica(sessao) {
-      const metodo = document.getElementById('revMetodoSelect').value;
-      const hoje = new Date(sessao.data + 'T00:00:00');
-
-      if (metodo === 'espacada') {
-        [1, 7, 30].forEach(dias => {
-          const d = new Date(hoje);
-          d.setDate(d.getDate() + dias);
-          DB.revisoes.push({
-            id: 'rev_' + Math.random().toString(36).substr(2, 9),
-            prepId: sessao.prepId,
-            discNome: sessao.discNome,
-            topicoNome: sessao.topicoNome,
-            dataAlvo: d.toISOString().split('T')[0],
-            concluida: false
-          });
-        });
-      } else if (metodo === 'personalizada') {
-        const customD = document.getElementById('revCustomDate').value;
-        if (customD) {
-          DB.revisoes.push({
-            id: 'rev_' + Math.random().toString(36).substr(2, 9),
-            prepId: sessao.prepId,
-            discNome: sessao.discNome,
-            topicoNome: sessao.topicoNome,
-            dataAlvo: customD,
-            concluida: false
-          });
-        }
-      } else if (metodo === 'recorrente') {
-        const dias = parseInt(document.getElementById('revRecorrenteDias').value) || 7;
-        const d = new Date(hoje);
-        d.setDate(d.getDate() + dias);
-        DB.revisoes.push({
-          id: 'rev_' + Math.random().toString(36).substr(2, 9),
-          prepId: sessao.prepId,
-          discNome: sessao.discNome,
-          topicoNome: sessao.topicoNome,
-          dataAlvo: d.toISOString().split('T')[0],
-          concluida: false
-        });
-      }
     }
 
     // ================= ABA 4: CALENDÁRIO & REVISÕES =================
@@ -2549,7 +2868,7 @@
       renderHistoricoTab();
     }
 
-    // ================= GERENCIAR PREPARAÇÕES =================
+    // ================= GERENCIAR PREPARAÇÕES E EDIÇÃO =================
     function openManagePrepsModal() {
       renderPrepsListModal();
       document.getElementById('modalManagePreps').classList.remove('hidden');
@@ -2574,14 +2893,17 @@
               <h4 class="text-sm font-black text-slate-900 dark:text-white">${prep.nome}</h4>
               <p class="text-xs text-slate-500">${prep.cargo}</p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 sm:gap-2">
               ${isAtiva ? `
                 <span class="px-3.5 py-1.5 rounded-xl bg-brand-100 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300 text-xs font-bold">✓ ATIVA</span>
               ` : `
-                <button onclick="ativarPreparacao('${prep.id}')" class="px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-slate-50 transition">
+                <button onclick="ativarPreparacao('${prep.id}')" class="px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition">
                   Ativar
                 </button>
               `}
+              <button onclick="openEditPrepModal('${prep.id}')" title="Editar Preparação" class="p-2 text-slate-400 hover:text-brand-600 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </button>
               ${DB.preparacoes.length > 1 ? `
                 <button onclick="excluirPreparacao('${prep.id}')" title="Excluir Preparação" class="p-2 text-slate-400 hover:text-rose-500 transition">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m4 0V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"/></svg>
@@ -2591,6 +2913,55 @@
           </div>
         `;
       }).join('');
+    }
+
+    function openEditPrepModal(prepId) {
+      const prep = DB.preparacoes.find(p => p.id === prepId);
+      if (!prep) return;
+      document.getElementById('editPrepId').value = prep.id;
+      document.getElementById('editPrepNome').value = prep.nome;
+      document.getElementById('editPrepCargo').value = prep.cargo;
+      document.getElementById('editPrepBanca').value = prep.banca || 'Cebraspe';
+      document.getElementById('editPrepFase').value = prep.fase || 'pre';
+      document.getElementById('editPrepMetaHoras').value = prep.metaHoras || 4.0;
+      document.getElementById('editPrepMetaQuestoes').value = prep.metaQuestoes || 40;
+      
+      document.getElementById('modalManagePreps').classList.add('hidden');
+      document.getElementById('modalEditPrep').classList.remove('hidden');
+    }
+
+    function closeEditPrepModal() {
+      document.getElementById('modalEditPrep').classList.add('hidden');
+      document.getElementById('modalManagePreps').classList.remove('hidden');
+    }
+
+    function salvarEdicaoPrep() {
+      const id = document.getElementById('editPrepId').value;
+      const prep = DB.preparacoes.find(p => p.id === id);
+      if (!prep) return;
+
+      const nome = document.getElementById('editPrepNome').value.trim();
+      const cargo = document.getElementById('editPrepCargo').value.trim();
+
+      if (!nome || !cargo) {
+        alert('Nome do concurso e cargo são obrigatórios!');
+        return;
+      }
+
+      prep.nome = nome;
+      prep.cargo = cargo;
+      prep.banca = document.getElementById('editPrepBanca').value;
+      prep.fase = document.getElementById('editPrepFase').value;
+      prep.metaHoras = parseFloat(document.getElementById('editPrepMetaHoras').value) || 4;
+      prep.metaQuestoes = parseInt(document.getElementById('editPrepMetaQuestoes').value) || 40;
+
+      salvarDB();
+      closeEditPrepModal();
+      renderPrepsListModal();
+      
+      atualizarSideBarMetas();
+      renderDashboardTab();
+      renderCompararTab();
     }
 
     function ativarPreparacao(prepId) {
