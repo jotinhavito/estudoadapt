@@ -44,17 +44,17 @@
 </head>
 <body class="bg-[#f8fafc] text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen flex flex-col md:flex-row antialiased transition-colors duration-200">
 
-  <!-- ================= BOTÃO FLUTUANTE DE MENU (MOBILE) ================= -->
-  <button id="floatingMenuBtn" onclick="toggleSidebar()" class="fixed top-4 left-4 z-40 p-2.5 rounded-2xl bg-white/90 dark:bg-[#151e32]/90 backdrop-blur-md shadow-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:scale-105 active:scale-95 transition flex items-center gap-2 text-xs font-bold md:hidden">
+  <!-- ================= BOTÃO FLUTUANTE DE MENU (MOBILE E DESKTOP RECOLHIDO) ================= -->
+  <button id="floatingMenuBtn" onclick="toggleSidebar()" class="fixed top-4 left-4 z-40 p-2.5 rounded-2xl bg-white/90 dark:bg-[#151e32]/90 backdrop-blur-md shadow-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:scale-105 active:scale-95 transition flex items-center gap-2 text-xs font-bold">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    <span>Menu</span>
+    <span class="md:hidden">Menu</span>
   </button>
 
   <!-- Backdrop escurecido para telas móveis -->
-  <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden transition-opacity"></div>
+  <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity"></div>
 
   <!-- ================= BARRA LATERAL (SIDEBAR RETRÁTIL) ================= -->
-  <aside id="appSidebar" class="fixed inset-y-0 left-0 z-50 md:sticky md:top-0 md:h-screen w-72 md:w-64 bg-white dark:bg-[#111827] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out select-none shadow-2xl md:shadow-none">
+  <aside id="appSidebar" class="fixed inset-y-0 left-0 z-50 md:sticky md:top-0 md:h-screen w-72 md:w-64 bg-white dark:bg-[#111827] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 transform -translate-x-full md:translate-x-0 transition-all duration-300 ease-in-out select-none shadow-2xl md:shadow-none">
     <div class="p-5 flex flex-col h-full overflow-y-auto">
       
       <!-- Topo: Logo & Ações -->
@@ -75,8 +75,8 @@
           <button id="syncModalBtn" title="Backup e Sincronização" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
           </button>
-          <button onclick="toggleSidebar()" title="Recolher Menu" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition md:hidden">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          <button onclick="toggleSidebar()" title="Recolher Menu" class="p-1.5 rounded-xl text-slate-400 hover:text-brand-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/></svg>
           </button>
         </div>
       </div>
@@ -321,19 +321,18 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Coluna da Esquerda -->
+        <!-- Coluna da Esquerda (Cronômetro + Registro de Estudo) -->
         <div class="lg:col-span-7 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             
             <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100 dark:border-slate-800 flex-wrap gap-3">
               <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold">
                 <button id="modeTimerBtn" onclick="setSessionMode('timer')" class="px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">⏱️ Cronômetro Focado</button>
-                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️️ Lançamento Manual</button>
+                <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️ Lançamento Manual</button>
               </div>
               <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Registro de Estudos</span>
             </div>
 
-            <!-- Mini Painel do Cronômetro -->
             <div id="timerContainerPanel" class="mb-6 p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-[#0b1324] border border-slate-800 text-white relative overflow-hidden shadow-inner">
               <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-center sm:text-left">
@@ -358,7 +357,6 @@
               </div>
             </div>
 
-            <!-- Formulário de Matéria, Tópico e Banca -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina</label>
@@ -440,7 +438,6 @@
               Como você quer revisar?
             </h2>
 
-            <!-- Botões em Pílula Superiores -->
             <div class="flex items-center justify-center gap-2 mb-5">
               <button type="button" id="tabRevEspacada" onclick="setRevMethod('espacada')" class="px-4 py-1.5 rounded-full text-xs font-bold transition border border-[#582be8] bg-[#582be8] text-white shadow-sm">
                 Espaçada
@@ -546,13 +543,13 @@
           <div class="flex items-center gap-2">
             <span class="text-[10px] font-black uppercase text-slate-400">BANCA:</span>
             <select id="filtroBancaSelect" onchange="renderBancasTab()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none">
-              <option value="TODAS">Todas as Bancas</option>
+              <!-- Renderizado dinamicamente -->
             </select>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-[10px] font-black uppercase text-slate-400">DISCIPLINA:</span>
             <select id="filtroDiscSelect" onchange="renderBancasTab()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none">
-              <option value="TODAS">Todas as Matérias</option>
+              <!-- Renderizado dinamicamente -->
             </select>
           </div>
         </div>
@@ -645,10 +642,10 @@
 
       <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex flex-wrap items-center gap-3">
         <select id="histFiltroDiscSelect" onchange="renderHistoricoTab()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none">
-          <option value="TODAS">Todas as Disciplinas</option>
+          <!-- Renderizado dinamicamente -->
         </select>
         <select id="histFiltroBancaSelect" onchange="renderHistoricoTab()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none">
-          <option value="TODAS">Todas as Bancas</option>
+          <!-- Renderizado dinamicamente -->
         </select>
       </div>
 
@@ -1128,17 +1125,29 @@
       document.getElementById('syncModalBtn').addEventListener('click', openSyncModal);
     });
 
+    // Função única que gerencia a expansão e redução do painel no mobile E no desktop
     function toggleSidebar() {
       const sidebar = document.getElementById('appSidebar');
       const backdrop = document.getElementById('sidebarBackdrop');
-      const isClosed = sidebar.classList.contains('-translate-x-full');
 
-      if (isClosed) {
-        sidebar.classList.remove('-translate-x-full');
-        backdrop.classList.remove('hidden');
+      if (window.innerWidth >= 768) {
+        // Desktop Toggle
+        if (sidebar.classList.contains('md:translate-x-0')) {
+          sidebar.classList.remove('md:translate-x-0');
+          sidebar.classList.add('md:-translate-x-full', 'md:-ml-64');
+        } else {
+          sidebar.classList.remove('md:-translate-x-full', 'md:-ml-64');
+          sidebar.classList.add('md:translate-x-0');
+        }
       } else {
-        sidebar.classList.add('-translate-x-full');
-        backdrop.classList.add('hidden');
+        // Mobile Toggle
+        if (sidebar.classList.contains('-translate-x-full')) {
+          sidebar.classList.remove('-translate-x-full');
+          backdrop.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          backdrop.classList.add('hidden');
+        }
       }
     }
 
@@ -2356,14 +2365,20 @@
         ? DB.sessoes.filter(s => s.prepId === prep.id) 
         : DB.sessoes;
 
-      const bancasUnicas = Array.from(new Set(sessoesFonte.map(s => s.banca || 'Cebraspe')));
+      const bancasPadrao = ['Cebraspe', 'FGV', 'FCC', 'Vunesp', 'Quadrix', 'Instituto AOCP', 'Outra'];
+      const bancasSessoes = Array.from(new Set(sessoesFonte.map(s => s.banca).filter(Boolean)));
+      const bancasUnicas = Array.from(new Set([...bancasPadrao, ...bancasSessoes]));
+
       const bSelect = document.getElementById('filtroBancaSelect');
       const currB = bSelect.value;
       bSelect.innerHTML = '<option value="TODAS">Todas as Bancas</option>' + 
         bancasUnicas.map(b => `<option value="${b}">${b}</option>`).join('');
       if (currB && bancasUnicas.includes(currB)) bSelect.value = currB;
 
-      const discUnicas = Array.from(new Set(sessoesFonte.map(s => s.discNome)));
+      const discEdital = (prep.edital || []).map(d => d.nome);
+      const discSessoes = Array.from(new Set(sessoesFonte.map(s => s.discNome).filter(Boolean)));
+      const discUnicas = Array.from(new Set([...discEdital, ...discSessoes]));
+
       const dSelect = document.getElementById('filtroDiscSelect');
       const currD = dSelect.value;
       dSelect.innerHTML = '<option value="TODAS">Todas as Matérias</option>' + 
@@ -2865,13 +2880,20 @@
       const discSel = document.getElementById('histFiltroDiscSelect');
       const bancaSel = document.getElementById('histFiltroBancaSelect');
 
-      const discs = Array.from(new Set(DB.sessoes.map(s => s.discNome)));
+      const prep = getPrepAtiva();
+      const discEdital = (prep.edital || []).map(d => d.nome);
+      const discSessoes = Array.from(new Set(DB.sessoes.map(s => s.discNome).filter(Boolean)));
+      const discs = Array.from(new Set([...discEdital, ...discSessoes]));
+
       const currD = discSel.value;
       discSel.innerHTML = '<option value="TODAS">Todas as Disciplinas</option>' + 
         discs.map(d => `<option value="${d}">${d}</option>`).join('');
       if (currD && discs.includes(currD)) discSel.value = currD;
 
-      const bancas = Array.from(new Set(DB.sessoes.map(s => s.banca || 'Cebraspe')));
+      const bancasPadrao = ['Cebraspe', 'FGV', 'FCC', 'Vunesp', 'Quadrix', 'Instituto AOCP', 'Outra'];
+      const bancasSessoes = Array.from(new Set(DB.sessoes.map(s => s.banca).filter(Boolean)));
+      const bancas = Array.from(new Set([...bancasPadrao, ...bancasSessoes]));
+
       const currB = bancaSel.value;
       bancaSel.innerHTML = '<option value="TODAS">Todas as Bancas</option>' + 
         bancas.map(b => `<option value="${b}">${b}</option>`).join('');
@@ -2884,7 +2906,7 @@
       if (list.length === 0) {
         container.innerHTML = `
           <div class="text-center py-12 bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 text-slate-400 text-xs">
-            Nenhuma sessão registrada.
+            Nenhuma sessão registrada com esses filtros.
           </div>
         `;
         return;
