@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EstudoAdapt · Alta Performance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,23 +36,31 @@
   </script>
   <style>
     body { font-family: 'Inter', sans-serif; }
-    /* Scrollbar discreta */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
     .dark ::-webkit-scrollbar-thumb { background: #334155; }
   </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen flex antialiased transition-colors duration-200">
+<body class="bg-[#f8fafc] text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 min-h-screen flex flex-col md:flex-row antialiased transition-colors duration-200">
 
-  <!-- ================= BARRA LATERAL (SIDEBAR) ================= -->
-  <aside class="w-64 bg-white dark:bg-[#111827] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 h-screen sticky top-0 z-30 select-none">
+  <!-- ================= BOTÃO FLUTUANTE DE MENU (MOBILE / FULLSCREEN) ================= -->
+  <button id="floatingMenuBtn" onclick="toggleSidebar()" class="fixed top-4 left-4 z-40 p-2.5 rounded-2xl bg-white/90 dark:bg-[#151e32]/90 backdrop-blur-md shadow-lg border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:scale-105 active:scale-95 transition flex items-center gap-2 text-xs font-bold md:hidden">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>Menu</span>
+  </button>
+
+  <!-- Backdrop escurecido para telas móveis -->
+  <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden transition-opacity"></div>
+
+  <!-- ================= BARRA LATERAL (SIDEBAR RETRÁTIL) ================= -->
+  <aside id="appSidebar" class="fixed inset-y-0 left-0 z-50 md:sticky md:top-0 md:h-screen w-72 md:w-64 bg-white dark:bg-[#111827] border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out select-none shadow-2xl md:shadow-none">
     <div class="p-5 flex flex-col h-full overflow-y-auto">
       
-      <!-- Topo: Logo & Ações Rápidas -->
-      <div class="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-slate-800">
+      <!-- Topo: Logo & Ações -->
+      <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-brand-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
           <div>
@@ -61,17 +69,21 @@
           </div>
         </div>
         <div class="flex items-center gap-1">
-          <button id="themeToggleBtn" title="Alternar Modo Escuro" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <button id="themeToggleBtn" title="Alternar Modo Escuro" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg id="themeMoonIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
           </button>
-          <button id="syncModalBtn" title="Backup e Sincronização" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <button id="syncModalBtn" title="Backup e Sincronização" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          </button>
+          <!-- Botão para fechar a barra (visível em telas menores e PC) -->
+          <button onclick="toggleSidebar()" title="Recolher Menu" class="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition md:hidden">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
       </div>
 
       <!-- Navegação Principal -->
-      <nav class="space-y-1.5 mt-5 flex-1">
+      <nav class="space-y-1.5 mt-4 flex-1">
         <button onclick="switchTab('dashboard')" data-tab="dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-600 hover:bg-slate-100/80 dark:text-slate-400 dark:hover:bg-slate-800/60">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
           <span>Dashboard & Metas</span>
@@ -118,7 +130,7 @@
         </button>
       </nav>
 
-      <!-- Rodapé da Barra Lateral: Preparação Ativa e Metas -->
+      <!-- Rodapé: Preparação Ativa e Metas (Horas + Questões) -->
       <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
         <!-- Cartão de Preparação Ativa -->
         <div onclick="openManagePrepsModal()" class="cursor-pointer bg-slate-50 dark:bg-slate-800/70 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 hover:border-brand-300 transition group">
@@ -130,35 +142,75 @@
           <p id="sidePrepCargo" class="text-[10px] text-brand-600 dark:text-brand-400 font-semibold truncate">...</p>
         </div>
 
-        <!-- Widget de Metas (Fiel à captura de referência) -->
-        <div class="bg-[#111827] text-white p-3.5 rounded-2xl shadow-md border border-slate-800">
-          <!-- Meta Hoje -->
+        <!-- Widget de Metas com Tempo Líquido E Questões -->
+        <div class="bg-[#111827] text-white p-3.5 rounded-2xl shadow-md border border-slate-800 space-y-3">
+          
+          <!-- Metas de Hoje -->
           <div>
-            <div class="flex items-center justify-between text-xs mb-1.5">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span class="font-medium text-slate-200">Programado para hoje</span>
+            <span class="text-[9px] font-black tracking-wider text-slate-400 uppercase block mb-1.5">HOJE</span>
+            
+            <!-- Tempo Hoje -->
+            <div class="mb-2">
+              <div class="flex items-center justify-between text-xs mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="text-[11px] text-slate-300 font-medium">Tempo</span>
+                </div>
+                <span id="sideMetaHojeTempoText" class="text-slate-400 font-mono text-[10px]">0h00 · 0%</span>
               </div>
-              <span id="sideMetaHojeText" class="text-slate-400 font-mono text-[11px]">0h00 · 0%</span>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div id="sideMetaHojeTempoBar" class="bg-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
             </div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-              <div id="sideMetaHojeBar" class="bg-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+
+            <!-- Questões Hoje -->
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  <span class="text-[11px] text-slate-300 font-medium">Questões</span>
+                </div>
+                <span id="sideMetaHojeQuestoesText" class="text-slate-400 font-mono text-[10px]">0/0 Q · 0%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div id="sideMetaHojeQuestoesBar" class="bg-cyan-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
             </div>
           </div>
 
-          <!-- Meta Semana -->
-          <div class="mt-3.5">
-            <div class="flex items-center justify-between text-xs mb-1.5">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-brand-400"></span>
-                <span class="font-medium text-slate-200">Programação da semana</span>
+          <!-- Metas da Semana -->
+          <div class="pt-2 border-t border-slate-800/80">
+            <span class="text-[9px] font-black tracking-wider text-slate-400 uppercase block mb-1.5">SEMANA</span>
+            
+            <!-- Tempo Semana -->
+            <div class="mb-2">
+              <div class="flex items-center justify-between text-xs mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                  <span class="text-[11px] text-slate-300 font-medium">Tempo</span>
+                </div>
+                <span id="sideMetaSemanaTempoText" class="text-slate-400 font-mono text-[10px]">0h00 · 0%</span>
               </div>
-              <span id="sideMetaSemanaText" class="text-slate-400 font-mono text-[11px]">0h00 · 0%</span>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div id="sideMetaSemanaTempoBar" class="bg-brand-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
             </div>
-            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-              <div id="sideMetaSemanaBar" class="bg-brand-500 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+
+            <!-- Questões Semana -->
+            <div>
+              <div class="flex items-center justify-between text-xs mb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span class="text-[11px] text-slate-300 font-medium">Questões</span>
+                </div>
+                <span id="sideMetaSemanaQuestoesText" class="text-slate-400 font-mono text-[10px]">0/0 Q · 0%</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div id="sideMetaSemanaQuestoesBar" class="bg-violet-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -166,11 +218,10 @@
   </aside>
 
   <!-- ================= ÁREA DE CONTEÚDO PRINCIPAL ================= -->
-  <main class="flex-1 p-6 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
+  <main class="flex-1 p-5 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden pt-16 md:pt-8">
     
     <!-- ABA 1: DASHBOARD & METAS -->
     <div id="tab-dashboard" class="tab-content space-y-6">
-      <!-- Seletor de Escopo de Estatísticas -->
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Dashboard de Desempenho</h1>
@@ -209,47 +260,35 @@
         </div>
       </div>
 
-      <!-- 4 Cartões Estatísticos Centrais -->
+      <!-- 4 Cartões Estatísticos -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Aproveitamento -->
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Aproveitamento Geral</span>
-          <div class="flex items-baseline gap-2">
-            <span id="statDashPct" class="text-3xl font-black text-brand-600 dark:text-brand-400">0.0%</span>
-          </div>
+          <span id="statDashPct" class="text-3xl font-black text-brand-600 dark:text-brand-400">0.0%</span>
           <p id="statDashAcertosErros" class="text-xs text-slate-400 mt-2 font-medium">0 acertos · 0 erros</p>
         </div>
 
-        <!-- Horas Estudadas -->
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Horas Líquidas</span>
-          <div class="flex items-baseline gap-2">
-            <span id="statDashHoras" class="text-3xl font-black text-slate-900 dark:text-white">0h00</span>
-          </div>
+          <span id="statDashHoras" class="text-3xl font-black text-slate-900 dark:text-white">0h00</span>
           <p id="statDashSessoes" class="text-xs text-slate-400 mt-2 font-medium">0 sessões registradas</p>
         </div>
 
-        <!-- Questões Reais -->
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Exercícios de Concursos</span>
-          <div class="flex items-baseline gap-2">
-            <span id="statDashQuestoes" class="text-3xl font-black text-emerald-600 dark:text-emerald-400">0</span>
-          </div>
+          <span id="statDashQuestoes" class="text-3xl font-black text-emerald-600 dark:text-emerald-400">0</span>
           <p class="text-xs text-slate-400 mt-2 font-medium">Questões em baterias</p>
         </div>
 
-        <!-- Simulados -->
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Simulados Fechados</span>
-          <div class="flex items-baseline gap-2">
-            <span id="statDashSimulados" class="text-3xl font-black text-purple-600 dark:text-purple-400">0</span>
-          </div>
+          <span id="statDashSimulados" class="text-3xl font-black text-purple-600 dark:text-purple-400">0</span>
           <p id="statDashSimuladosMedia" class="text-xs text-slate-400 mt-2 font-medium">Média: -</p>
         </div>
       </div>
     </div>
 
-    <!-- ABA 2: EDITAL VERTICAL (Fiel à captura 5) -->
+    <!-- ABA 2: EDITAL VERTICAL -->
     <div id="tab-edital" class="tab-content hidden space-y-6">
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -268,7 +307,6 @@
         </div>
       </div>
 
-      <!-- Barra de Progresso Global do Edital -->
       <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
         <div class="flex items-center justify-between text-xs mb-2">
           <span class="font-bold text-slate-700 dark:text-slate-200">Progresso Global do Edital</span>
@@ -279,10 +317,7 @@
         </div>
       </div>
 
-      <!-- Lista de Matérias do Edital -->
-      <div id="editalDisciplinasContainer" class="space-y-6">
-        <!-- Renderizado dinamicamente via JS com o design idêntico à imagem 5 -->
-      </div>
+      <div id="editalDisciplinasContainer" class="space-y-6"></div>
     </div>
 
     <!-- ABA 3: SESSÃO & REVISÕES -->
@@ -293,11 +328,9 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Coluna da Esquerda: Cronômetro / Registro -->
         <div class="lg:col-span-8 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
-            <!-- Alternador Cronômetro vs Manual -->
-            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800 flex-wrap gap-4">
               <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold">
                 <button id="modeTimerBtn" onclick="setSessionMode('timer')" class="px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">⏱️ Cronômetro</button>
                 <button id="modeManualBtn" onclick="setSessionMode('manual')" class="px-4 py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">✍️ Lançamento Manual</button>
@@ -305,7 +338,6 @@
               <span id="sessionTimerDisplay" class="font-mono text-3xl font-black text-slate-900 dark:text-white tracking-wider">00:00:00</span>
             </div>
 
-            <!-- Seletores de Matéria, Tópico e Banca -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina</label>
@@ -343,7 +375,6 @@
               </div>
             </div>
 
-            <!-- Modalidades de Estudo (Pílulas) -->
             <div class="mb-5">
               <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-2">Modalidade do Estudo</label>
               <div class="flex flex-wrap gap-2" id="modalityPillsContainer">
@@ -356,7 +387,6 @@
               </div>
             </div>
 
-            <!-- Bateria de Questões -->
             <div class="grid grid-cols-2 gap-4 mb-5 p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 dark:border-slate-700/80">
               <div>
                 <label class="block text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-wider mb-1">Questões Corretas (C)</label>
@@ -368,18 +398,16 @@
               </div>
             </div>
 
-            <!-- Diário / Onde Parei -->
             <div class="mb-5">
               <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Diário / Onde Parei?</label>
-              <textarea id="sessionNotasInput" rows="2" placeholder="Ex: Parei no Art. 37, inciso XVI da CF. Atenção para a súmula vinculante..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+              <textarea id="sessionNotasInput" rows="2" placeholder="Ex: Parei no Art. 37, inciso XVI da CF..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
             </div>
 
-            <!-- Botoes de Ação do Cronometro / Salvar -->
             <div class="flex items-center gap-3">
               <button id="timerToggleBtn" onclick="toggleTimer()" class="flex-1 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition shadow-lg shadow-brand-500/25">
                 Iniciar Cronômetro
               </button>
-              <button id="timerResetBtn" onclick="resetTimer()" class="px-4 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-xs uppercase transition">
+              <button id="timerResetBtn" onclick="resetTimer()" class="px-4 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-300 font-bold text-xs uppercase transition">
                 Zerar
               </button>
               <button onclick="salvarSessaoEstudo()" class="flex-1 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-600/25">
@@ -389,7 +417,6 @@
           </div>
         </div>
 
-        <!-- Coluna da Direita: Agendamento de Revisões -->
         <div class="lg:col-span-4 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             <h2 class="text-sm font-black uppercase text-slate-900 dark:text-white tracking-wider mb-4 flex items-center gap-2">
@@ -407,9 +434,7 @@
                 </select>
               </div>
 
-              <div id="revMetodoFieldsContainer">
-                <!-- Injetado dinamicamente -->
-              </div>
+              <div id="revMetodoFieldsContainer"></div>
 
               <div class="p-3 bg-brand-50 dark:bg-brand-950/40 rounded-2xl border border-brand-200/60 dark:border-brand-900 text-xs text-brand-800 dark:text-brand-300">
                 <span class="font-bold block mb-1">💡 Dica de Retenção:</span>
@@ -440,7 +465,6 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Grade do Calendário -->
         <div class="lg:col-span-8 bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
           <div class="grid grid-cols-7 gap-2 mb-3 text-center">
             <span class="text-[10px] font-black text-slate-400 uppercase">Dom</span>
@@ -451,9 +475,7 @@
             <span class="text-[10px] font-black text-slate-400 uppercase">Sex</span>
             <span class="text-[10px] font-black text-slate-400 uppercase">Sáb</span>
           </div>
-          <div id="calendarioDiasGrid" class="grid grid-cols-7 gap-2">
-            <!-- Renderizado dinamicamente -->
-          </div>
+          <div id="calendarioDiasGrid" class="grid grid-cols-7 gap-2"></div>
           <div class="flex items-center gap-6 mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
@@ -466,20 +488,17 @@
           </div>
         </div>
 
-        <!-- Painel Lateral: Resumo do Dia Clicado -->
         <div class="lg:col-span-4 bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-slate-800">
             <h2 class="text-xs font-black uppercase text-slate-900 dark:text-white tracking-wider">Atividades do Dia</h2>
             <span id="calDiaSelecionadoText" class="text-xs font-bold text-brand-600 dark:text-brand-400">Hoje</span>
           </div>
-          <div id="calResumoDiaContainer" class="space-y-3">
-            <!-- Injetado dinamicamente -->
-          </div>
+          <div id="calResumoDiaContainer" class="space-y-3"></div>
         </div>
       </div>
     </div>
 
-    <!-- ABA 5: ESTATÍSTICAS & BANCAS (Fiel à captura 1) -->
+    <!-- ABA 5: ESTATÍSTICAS & BANCAS -->
     <div id="tab-estatisticas" class="tab-content hidden space-y-6">
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -488,10 +507,10 @@
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 12l3-3 3 3 4-4"/></svg>
               EXERCÍCIOS REAIS DE PROVAS
             </span>
-            <span id="statSubConcursoBadge" class="text-xs font-bold text-slate-500 dark:text-slate-400">TCDF - Tribunal de Contas do DF</span>
+            <span id="statSubConcursoBadge" class="text-xs font-bold text-slate-500 dark:text-slate-400">TCDF</span>
           </div>
           <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Estatísticas & Desempenho por Banca</h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Métricas fiéis das suas baterias de questões reais (simulados completos ficam isolados na aba própria)</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Métricas fiéis das suas baterias de questões reais</p>
         </div>
         <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/80 text-xs font-bold">
           <button id="scopeBancaAtualBtn" onclick="setBancaScope('atual')" class="px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">🎯 Preparação Atual</button>
@@ -499,7 +518,6 @@
         </div>
       </div>
 
-      <!-- Barra de Filtros e Ordenação -->
       <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3 flex-wrap">
           <div class="flex items-center gap-2">
@@ -522,22 +540,17 @@
         </div>
       </div>
 
-      <!-- Lista de Cartões das Bancas -->
-      <div id="bancasCardsContainer" class="space-y-4">
-        <!-- Injetado dinamicamente com o layout exato da imagem 1 -->
-      </div>
+      <div id="bancasCardsContainer" class="space-y-4"></div>
     </div>
 
-    <!-- ABA 6: COMPARAR PREPARAÇÕES -->
+    <!-- ABA 6: COMPARAR PREPARAÇÕES (Com Painel Expansível) -->
     <div id="tab-comparar" class="tab-content hidden space-y-6">
       <div>
         <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Comparar Preparações</h1>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Analise seu rendimento, volume de horas e foco entre seus projetos de concurso</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Analise seu rendimento e clique em cada cartão para expandir o raio-x detalhado de matérias e metas</p>
       </div>
 
-      <div id="compararCardsContainer" class="space-y-4">
-        <!-- Injetado dinamicamente -->
-      </div>
+      <div id="compararCardsContainer" class="space-y-4"></div>
     </div>
 
     <!-- ABA 7: CICLOS DE ESTUDO -->
@@ -563,9 +576,7 @@
         </div>
       </div>
 
-      <div id="ciclosListContainer" class="space-y-3">
-        <!-- Renderizado dinamicamente -->
-      </div>
+      <div id="ciclosListContainer" class="space-y-3"></div>
     </div>
 
     <!-- ABA 8: SIMULADOS GLOBAIS -->
@@ -578,7 +589,6 @@
         <button onclick="openNovoSimuladoModal()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm">+ Registrar Novo Simulado</button>
       </div>
 
-      <!-- Resumo Estatístico dos Simulados -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
           <span class="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-1">Simulados Feitos</span>
@@ -598,10 +608,7 @@
         </div>
       </div>
 
-      <!-- Lista de Simulados Realizados -->
-      <div id="simuladosListContainer" class="space-y-4">
-        <!-- Injetado dinamicamente -->
-      </div>
+      <div id="simuladosListContainer" class="space-y-4"></div>
     </div>
 
     <!-- ABA 9: HISTÓRICO & DIÁRIO -->
@@ -613,7 +620,6 @@
         </div>
       </div>
 
-      <!-- Filtros do Histórico -->
       <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex flex-wrap items-center gap-3">
         <select id="histFiltroDiscSelect" onchange="renderHistoricoTab()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none">
           <option value="TODAS">Todas as Disciplinas</option>
@@ -623,17 +629,14 @@
         </select>
       </div>
 
-      <!-- Lista de Sessões -->
-      <div id="historicoListContainer" class="space-y-3">
-        <!-- Injetado dinamicamente -->
-      </div>
+      <div id="historicoListContainer" class="space-y-3"></div>
     </div>
 
   </main>
 
-  <!-- ================= MODAIS DO SISTEMA ================= -->
+  <!-- ================= MODAIS ================= -->
 
-  <!-- MODAL: GERENCIAR PREPARAÇÕES (Fiel à captura 3/4) -->
+  <!-- MODAL: GERENCIAR PREPARAÇÕES -->
   <div id="modalManagePreps" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#151e32] w-full max-w-xl rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-6">
@@ -651,12 +654,8 @@
         </button>
       </div>
 
-      <!-- Lista de Preparações Existentes -->
-      <div id="modalPrepsList" class="space-y-3 mb-6">
-        <!-- Injetado dinamicamente -->
-      </div>
+      <div id="modalPrepsList" class="space-y-3 mb-6"></div>
 
-      <!-- Formulário: Criar Nova Preparação (Com todos os campos) -->
       <div class="pt-6 border-t border-slate-100 dark:border-slate-800">
         <h3 class="text-xs font-black uppercase text-slate-800 dark:text-slate-200 tracking-wider mb-4 flex items-center gap-1.5">
           <span>+ Criar Nova Preparação</span>
@@ -730,7 +729,7 @@
         <button onclick="closeViradaModal()" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
       <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
-        Parabéns por chegar até aqui! Insira os dados oficiais publicados no edital para calibrar o cronômetro regressivo e as novas metas de reta final.
+        Insira os dados oficiais publicados no edital para calibrar a contagem regressiva e as novas metas de reta final.
       </p>
       <div class="space-y-3 mb-5">
         <div>
@@ -752,7 +751,7 @@
     </div>
   </div>
 
-  <!-- MODAL: COLAR EM LOTE (EDITAL) -->
+  <!-- MODAL: COLAR EM LOTE -->
   <div id="modalLote" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#151e32] w-full max-w-lg rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
@@ -760,7 +759,7 @@
         <button onclick="closeLoteModal()" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
       <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
-        Selecione a disciplina e cole o texto do edital. Cada linha virará um tópico. Linhas iniciadas com traço, ponto ou número secundário (ex: 1.1) serão criadas como subtópicos!
+        Selecione a disciplina e cole o texto do edital. Linhas com traço, ponto ou número secundário (ex: 1.1) serão criadas como subtópicos.
       </p>
       <div class="space-y-3 mb-5">
         <div>
@@ -768,8 +767,8 @@
           <select id="loteDiscSelect" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none"></select>
         </div>
         <div>
-          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Conteúdo do Edital (uma linha por tópico)</label>
-          <textarea id="loteTextarea" rows="6" placeholder="1 Estado, governo e administração pública&#10;1.1 Administração direta e indireta&#10;1.2 Atos administrativos..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium focus:outline-none"></textarea>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Conteúdo do Edital</label>
+          <textarea id="loteTextarea" rows="6" placeholder="1 Estado, governo e administração pública&#10;1.1 Administração direta e indireta..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium focus:outline-none"></textarea>
         </div>
       </div>
       <button onclick="processarLote()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
@@ -831,7 +830,7 @@
         </div>
 
         <div>
-          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Estratégia e Anotações de Prova</label>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Estratégia e Anotações</label>
           <textarea id="simModalNotas" rows="2" placeholder="O que deu certo? Faltou tempo? Erros por distração..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-medium"></textarea>
         </div>
       </div>
@@ -842,7 +841,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SINCRONIZAÇÃO E BACKUP -->
+  <!-- MODAL: BACKUP E SINCRONIZAÇÃO -->
   <div id="modalSync" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-[#151e32] w-full max-w-lg rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
@@ -851,7 +850,7 @@
       </div>
 
       <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
-        Transfira seu progresso entre o iPad, iPhone e PC sem perder nenhum dado. Copie o código gerado ou baixe o arquivo JSON.
+        Transfira seu progresso entre o iPad, iPhone e PC sem perder nenhum dado salvo.
       </p>
 
       <div class="space-y-4 mb-5">
@@ -914,7 +913,6 @@
 
   <!-- ================= LÓGICA JAVASCRIPT ================= -->
   <script>
-    // ESTADO GLOBAL DO APLICATIVO
     const STORAGE_KEY = 'estudoadapt_db_v3';
 
     let DB = {
@@ -967,7 +965,6 @@
       revisoes: []
     };
 
-    // Variáveis voláteis de sessão
     let timerInterval = null;
     let timerSeconds = 0;
     let timerRunning = false;
@@ -976,6 +973,9 @@
     let calCurrentYear = new Date().getFullYear();
     let calSelectedDayStr = new Date().toISOString().split('T')[0];
     let bancaSortOrder = 'questoes';
+    
+    // Conjunto de IDs das preparações abertas no acordeão de Comparar Preparações
+    let expandedPrepCards = new Set(['prep_default']);
 
     // ================= INICIALIZAÇÃO =================
     window.addEventListener('DOMContentLoaded', () => {
@@ -985,10 +985,33 @@
       switchTab('dashboard');
       renderRevInputs();
 
-      // Listeners
       document.getElementById('themeToggleBtn').addEventListener('click', toggleTema);
       document.getElementById('syncModalBtn').addEventListener('click', openSyncModal);
     });
+
+    // Controle da Barra Lateral (Expandir / Encolher)
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      const isClosed = sidebar.classList.contains('-translate-x-full');
+
+      if (isClosed) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
+
+    function closeSidebarIfMobile() {
+      if (window.innerWidth < 768) {
+        const sidebar = document.getElementById('appSidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      }
+    }
 
     function carregarDB() {
       const data = localStorage.getItem(STORAGE_KEY);
@@ -1027,7 +1050,7 @@
       if (nDate) nDate.value = hoje;
     }
 
-    // ================= TEMAS (DARK / LIGHT) =================
+    // ================= TEMAS =================
     function toggleTema() {
       DB.theme = DB.theme === 'light' ? 'dark' : 'light';
       salvarDB();
@@ -1044,7 +1067,7 @@
       }
     }
 
-    // ================= NAVEGAÇÃO ENTRE ABAS =================
+    // ================= NAVEGAÇÃO =================
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       const activeContent = document.getElementById(`tab-${tabId}`);
@@ -1058,8 +1081,9 @@
         }
       });
 
-      // Renderizadores
+      closeSidebarIfMobile();
       atualizarSideBarMetas();
+
       if (tabId === 'dashboard') renderDashboardTab();
       if (tabId === 'edital') renderEditalTab();
       if (tabId === 'sessao') renderSessaoTab();
@@ -1071,7 +1095,7 @@
       if (tabId === 'historico') renderHistoricoTab();
     }
 
-    // ================= BARRA LATERAL & METAS =================
+    // ================= BARRA LATERAL & METAS (HORAS + QUESTÕES) =================
     function atualizarSideBarMetas() {
       const prep = getPrepAtiva();
       if (!prep) return;
@@ -1088,22 +1112,30 @@
         badge.className = 'text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400';
       }
 
-      // Cálculo de Horas de Hoje
+      // 1. Cálculos de Hoje
       const hojeStr = new Date().toISOString().split('T')[0];
       const sessoesHoje = DB.sessoes.filter(s => s.prepId === prep.id && s.data === hojeStr);
+
       const minHoje = sessoesHoje.reduce((acc, s) => acc + (s.minutos || 0), 0);
       const horasHoje = minHoje / 60;
-      const metaHoje = prep.metaHoras || 4;
-      const pctHoje = Math.min(100, Math.round((horasHoje / metaHoje) * 100));
+      const metaHorasHoje = prep.metaHoras || 4.0;
+      const pctHorasHoje = Math.min(100, Math.round((horasHoje / metaHorasHoje) * 100));
 
       const hH = Math.floor(minHoje / 60);
       const mH = minHoje % 60;
       const hHojeFormat = `${hH}h${mH.toString().padStart(2, '0')}`;
 
-      document.getElementById('sideMetaHojeText').innerText = `${hHojeFormat} · ${pctHoje}%`;
-      document.getElementById('sideMetaHojeBar').style.width = `${pctHoje}%`;
+      document.getElementById('sideMetaHojeTempoText').innerText = `${hHojeFormat} / ${metaHorasHoje}h · ${pctHorasHoje}%`;
+      document.getElementById('sideMetaHojeTempoBar').style.width = `${pctHorasHoje}%`;
 
-      // Cálculo da Semana (início domingo)
+      const qHoje = sessoesHoje.reduce((acc, s) => acc + (s.acertos || 0) + (s.erros || 0), 0);
+      const metaQHoje = prep.metaQuestoes || 40;
+      const pctQHoje = Math.min(100, Math.round((qHoje / metaQHoje) * 100));
+
+      document.getElementById('sideMetaHojeQuestoesText').innerText = `${qHoje}/${metaQHoje} Q · ${pctQHoje}%`;
+      document.getElementById('sideMetaHojeQuestoesBar').style.width = `${pctQHoje}%`;
+
+      // 2. Cálculos da Semana (Início no domingo)
       const now = new Date();
       const primeiroDiaSemana = new Date(now.setDate(now.getDate() - now.getDay()));
       primeiroDiaSemana.setHours(0,0,0,0);
@@ -1113,17 +1145,25 @@
         const d = new Date(s.data + 'T00:00:00');
         return d >= primeiroDiaSemana;
       });
+
       const minSemana = sessoesSemana.reduce((acc, s) => acc + (s.minutos || 0), 0);
       const horasSemana = minSemana / 60;
-      const metaSemana = (prep.metaHoras || 4) * 6; // 6 dias úteis
-      const pctSemana = Math.min(100, Math.round((horasSemana / metaSemana) * 100));
+      const metaHorasSemana = (prep.metaHoras || 4.0) * 6; // 6 dias úteis
+      const pctHorasSemana = Math.min(100, Math.round((horasSemana / metaHorasSemana) * 100));
 
       const hS = Math.floor(minSemana / 60);
       const mS = minSemana % 60;
       const hSemanaFormat = `${hS}h${mS.toString().padStart(2, '0')}`;
 
-      document.getElementById('sideMetaSemanaText').innerText = `${hSemanaFormat} · ${pctSemana}%`;
-      document.getElementById('sideMetaSemanaBar').style.width = `${pctSemana}%`;
+      document.getElementById('sideMetaSemanaTempoText').innerText = `${hSemanaFormat} / ${metaHorasSemana}h · ${pctHorasSemana}%`;
+      document.getElementById('sideMetaSemanaTempoBar').style.width = `${pctHorasSemana}%`;
+
+      const qSemana = sessoesSemana.reduce((acc, s) => acc + (s.acertos || 0) + (s.erros || 0), 0);
+      const metaQSemana = (prep.metaQuestoes || 40) * 6;
+      const pctQSemana = Math.min(100, Math.round((qSemana / metaQSemana) * 100));
+
+      document.getElementById('sideMetaSemanaQuestoesText').innerText = `${qSemana}/${metaQSemana} Q · ${pctQSemana}%`;
+      document.getElementById('sideMetaSemanaQuestoesBar').style.width = `${pctQSemana}%`;
     }
 
     // ================= ABA 1: DASHBOARD =================
@@ -1145,7 +1185,6 @@
       const prep = getPrepAtiva();
       if (!prep) return;
 
-      // Banner Info
       document.getElementById('dashBannerConcurso').innerText = prep.nome;
       document.getElementById('dashBannerCargo').innerText = `${prep.cargo}`;
       document.getElementById('dashBannerBanca').innerText = `Banca: ${prep.banca}`;
@@ -1159,7 +1198,6 @@
         fBadge.className = 'text-[10px] font-black uppercase px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30';
       }
 
-      // Bagagem de dias
       if (prep.dataInicio) {
         const dIni = new Date(prep.dataInicio + 'T00:00:00');
         const diffDays = Math.max(0, Math.floor((new Date() - dIni) / (1000 * 60 * 60 * 24)));
@@ -1168,7 +1206,6 @@
         document.getElementById('dashBannerBagagem').innerText = `Bagagem acumulada: -`;
       }
 
-      // Contagem regressiva
       if (prep.fase === 'pos' && prep.dataProva) {
         const dPrv = new Date(prep.dataProva + 'T00:00:00');
         const diffP = Math.ceil((dPrv - new Date()) / (1000 * 60 * 60 * 24));
@@ -1177,7 +1214,6 @@
         document.getElementById('dashBannerCountdown').innerText = 'Fase de Construção de Base';
       }
 
-      // Sessões filtradas por escopo
       const sessoesFiltradas = DB.dashboardScope === 'atual' 
         ? DB.sessoes.filter(s => s.prepId === prep.id) 
         : DB.sessoes;
@@ -1197,7 +1233,6 @@
       document.getElementById('statDashSessoes').innerText = `${sessoesFiltradas.length} sessões registradas`;
       document.getElementById('statDashQuestoes').innerText = totalQuestoes;
 
-      // Simulados
       const simsFiltrados = DB.dashboardScope === 'atual' 
         ? DB.simulados.filter(s => s.prepId === prep.id) 
         : DB.simulados;
@@ -1211,16 +1246,15 @@
       }
     }
 
-    // ================= ABA 2: EDITAL VERTICAL (Fiel à captura 5) =================
+    // ================= ABA 2: EDITAL VERTICAL =================
     function renderEditalTab() {
       const prep = getPrepAtiva();
       const container = document.getElementById('editalDisciplinasContainer');
       if (!prep || !prep.edital || prep.edital.length === 0) {
         container.innerHTML = `
           <div class="text-center py-16 bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-8">
-            <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <p class="text-sm font-bold text-slate-700 dark:text-slate-300">Nenhuma disciplina cadastrada neste edital.</p>
-            <p class="text-xs text-slate-400 mt-1">Clique em "Nova Disciplina" ou "Colar em Lote" para montar a sua grade.</p>
+            <p class="text-xs text-slate-400 mt-1">Clique em "Nova Disciplina" ou "Colar em Lote" para montar sua grade.</p>
           </div>
         `;
         document.getElementById('editalGlobalPctText').innerText = '0 de 0 tópicos (0.0%)';
@@ -1231,7 +1265,7 @@
       let totalTopicos = 0;
       let concluidosTopicos = 0;
 
-      container.innerHTML = prep.edital.map((disc, dIdx) => {
+      container.innerHTML = prep.edital.map((disc) => {
         const topicos = disc.topicos || [];
         const concluidosDisc = topicos.filter(t => t.concluido).length;
         const totalDisc = topicos.length;
@@ -1239,7 +1273,6 @@
         concluidosTopicos += concluidosDisc;
         const pctDisc = totalDisc > 0 ? Math.round((concluidosDisc / totalDisc) * 100) : 0;
 
-        // Métricas da disciplina
         const sessoesDisc = DB.sessoes.filter(s => s.prepId === prep.id && s.discId === disc.id);
         const acertosDisc = sessoesDisc.reduce((a, s) => a + (s.acertos || 0), 0);
         const errosDisc = sessoesDisc.reduce((a, s) => a + (s.erros || 0), 0);
@@ -1248,10 +1281,8 @@
 
         return `
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm relative overflow-hidden">
-            <!-- Barra lateral decorativa roxa -->
             <div class="w-1.5 h-10 bg-brand-600 rounded-r-full absolute left-0 top-6"></div>
 
-            <!-- Cabeçalho da Disciplina (Idêntico à Imagem 5) -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100 dark:border-slate-800">
               <div class="pl-2">
                 <h3 class="text-base font-black tracking-tight text-slate-900 dark:text-white uppercase">${disc.nome}</h3>
@@ -1263,7 +1294,6 @@
                 </div>
               </div>
 
-              <!-- Métricas à Direita -->
               <div class="flex items-center gap-6 self-end md:self-auto">
                 <div class="text-center">
                   <span class="text-sm font-black text-emerald-600 block leading-tight">${acertosDisc}</span>
@@ -1283,7 +1313,6 @@
               </div>
             </div>
 
-            <!-- Tabela de Conteúdos -->
             <div class="overflow-x-auto mt-2">
               <table class="w-full text-left border-collapse">
                 <thead>
@@ -1299,7 +1328,7 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs">
-                  ${topicos.map((top, tIdx) => {
+                  ${topicos.map((top) => {
                     const sTop = DB.sessoes.filter(s => s.prepId === prep.id && s.topicoId === top.id);
                     const acTop = sTop.reduce((a, s) => a + (s.acertos || 0), 0);
                     const erTop = sTop.reduce((a, s) => a + (s.erros || 0), 0);
@@ -1308,7 +1337,6 @@
                     
                     const dtInicio = top.dataInicio ? formatarDataBR(top.dataInicio) : '—';
                     const dtFim = top.dataFim ? formatarDataBR(top.dataFim) : '—';
-
                     const isSub = top.isSub || top.nome.startsWith('↳');
 
                     return `
@@ -1347,7 +1375,6 @@
               </table>
             </div>
 
-            <!-- Rodapé do Card da Disciplina -->
             <div class="flex items-center justify-between pt-4 mt-2 border-t border-slate-100 dark:border-slate-800">
               <button onclick="promptNovoTopico('${disc.id}')" class="px-3.5 py-1.5 rounded-xl bg-brand-50 hover:bg-brand-100 dark:bg-brand-950/60 dark:hover:bg-brand-900/80 text-brand-600 dark:text-brand-300 font-bold text-xs uppercase tracking-wider transition flex items-center gap-1.5">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
@@ -1386,7 +1413,7 @@
     }
 
     function promptNovaDisciplina() {
-      const nome = prompt('Nome da nova disciplina (ex: DIREITO CONSTITUCIONAL):');
+      const nome = prompt('Nome da nova disciplina:');
       if (!nome || !nome.trim()) return;
       const prep = getPrepAtiva();
       prep.edital.push({
@@ -1454,7 +1481,6 @@
       renderEditalTab();
     }
 
-    // Modal Colar em Lote
     function openLoteModal() {
       const prep = getPrepAtiva();
       const sel = document.getElementById('loteDiscSelect');
@@ -1605,7 +1631,6 @@
       const disc = prep.edital.find(d => d.id === discId);
       const top = disc && disc.topicos ? disc.topicos.find(t => t.id === topicoId) : null;
 
-      // Se estudou um tópico pela 1ª vez, marca dataInicio
       if (top && !top.dataInicio) {
         top.dataInicio = dataEstudo;
       }
@@ -1627,8 +1652,6 @@
       };
 
       DB.sessoes.unshift(novaSessao);
-
-      // Agendar revisão se aplicável
       agendarRevisaoAutomatica(novaSessao);
 
       salvarDB();
@@ -1811,7 +1834,7 @@
       renderCalendarioTab();
     }
 
-    // ================= ABA 5: ESTATÍSTICAS & BANCAS (Fiel à captura 1) =================
+    // ================= ABA 5: ESTATÍSTICAS & BANCAS =================
     function setBancaScope(scope) {
       DB.bancaScope = scope;
       const bAt = document.getElementById('scopeBancaAtualBtn');
@@ -1839,7 +1862,6 @@
         ? DB.sessoes.filter(s => s.prepId === prep.id) 
         : DB.sessoes;
 
-      // Popula selects de filtro
       const bancasUnicas = Array.from(new Set(sessoesFonte.map(s => s.banca || 'Cebraspe')));
       const bSelect = document.getElementById('filtroBancaSelect');
       const currB = bSelect.value;
@@ -1857,7 +1879,6 @@
       const filtroBanca = bSelect.value;
       const filtroDisc = dSelect.value;
 
-      // Agrupa por Banca
       let sessoesFiltradas = sessoesFonte;
       if (filtroBanca !== 'TODAS') sessoesFiltradas = sessoesFiltradas.filter(s => s.banca === filtroBanca);
       if (filtroDisc !== 'TODAS') sessoesFiltradas = sessoesFiltradas.filter(s => s.discNome === filtroDisc);
@@ -1884,7 +1905,6 @@
 
       let list = Object.values(grupos);
 
-      // Ordenação
       if (bancaSortOrder === 'questoes') {
         list.sort((a, b) => (b.acertos + b.erros) - (a.acertos + a.erros));
       } else if (bancaSortOrder === 'pct_desc') {
@@ -1911,7 +1931,6 @@
         return;
       }
 
-      // Renderiza com o visual idêntico ao da Imagem 1
       container.innerHTML = list.map(item => {
         const totalQ = item.acertos + item.erros;
         const pct = totalQ > 0 ? ((item.acertos / totalQ) * 100).toFixed(1) : '0.0';
@@ -1922,7 +1941,6 @@
         return `
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
             <div class="flex items-center gap-4">
-              <!-- Barra vertical indicadora roxa -->
               <div class="w-1.5 h-10 bg-brand-600 rounded-full shrink-0"></div>
               <div>
                 <div class="flex items-center gap-2 flex-wrap">
@@ -1959,7 +1977,16 @@
       }).join('');
     }
 
-    // ================= ABA 6: COMPARAR PREPARAÇÕES =================
+    // ================= ABA 6: COMPARAR PREPARAÇÕES (EXPANSÍVEL) =================
+    function toggleCompararCard(prepId) {
+      if (expandedPrepCards.has(prepId)) {
+        expandedPrepCards.delete(prepId);
+      } else {
+        expandedPrepCards.add(prepId);
+      }
+      renderCompararTab();
+    }
+
     function renderCompararTab() {
       const container = document.getElementById('compararCardsContainer');
       container.innerHTML = DB.preparacoes.map(prep => {
@@ -1970,13 +1997,18 @@
         const totQ = ac + er;
         const pct = totQ > 0 ? ((ac / totQ) * 100).toFixed(1) : '0.0';
         const isAtiva = prep.id === DB.activePrepId;
+        const isExpanded = expandedPrepCards.has(prep.id);
 
         const h = Math.floor(minTot / 60);
         const m = minTot % 60;
 
+        // Análise das matérias
+        const materias = prep.edital || [];
+
         return `
           <div class="bg-white dark:bg-[#151e32] border ${isAtiva ? 'border-brand-500 ring-2 ring-brand-500/20' : 'border-slate-200/80 dark:border-slate-800'} rounded-3xl p-6 shadow-sm transition">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <!-- Cabeçalho Clicável do Cartão -->
+            <div onclick="toggleCompararCard('${prep.id}')" class="cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 select-none">
               <div>
                 <div class="flex items-center gap-2 mb-1">
                   <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${prep.fase === 'pos' ? 'bg-rose-50 text-rose-600' : 'bg-amber-50 text-amber-700'}">
@@ -1985,11 +2017,14 @@
                   <span class="text-xs font-bold text-slate-400">Banca: ${prep.banca}</span>
                   ${isAtiva ? '<span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-brand-50 text-brand-700">ATIVA</span>' : ''}
                 </div>
-                <h3 class="text-lg font-black text-slate-900 dark:text-white">${prep.nome}</h3>
+                <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>${prep.nome}</span>
+                  <svg class="w-4 h-4 text-slate-400 transform transition-transform duration-200 ${isExpanded ? 'rotate-180 text-brand-600' : ''}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">${prep.cargo}</p>
               </div>
 
-              <div class="flex items-center gap-6">
+              <div class="flex items-center gap-6" onclick="event.stopPropagation()">
                 <div>
                   <span class="text-xs font-black text-slate-900 dark:text-white block font-mono">${h}h${m.toString().padStart(2, '0')}</span>
                   <span class="text-[9px] font-black text-slate-400 uppercase">HORAS TOTAIS</span>
@@ -2003,12 +2038,74 @@
                   <span class="text-[9px] font-black text-slate-400 uppercase">APROVEITAMENTO</span>
                 </div>
                 ${!isAtiva ? `
-                  <button onclick="ativarPreparacao('${prep.id}')" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-xs uppercase tracking-wider transition">
+                  <button onclick="ativarPreparacao('${prep.id}')" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-xs uppercase tracking-wider hover:bg-slate-800 transition">
                     Ativar
                   </button>
                 ` : ''}
               </div>
             </div>
+
+            <!-- Painel Expansível de Detalhes -->
+            ${isExpanded ? `
+              <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 space-y-5 animate-fadeIn">
+                <!-- Informações e Metas -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
+                  <div>
+                    <span class="text-[9px] font-black uppercase text-slate-400 block mb-0.5">Data de Início</span>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 font-mono">${prep.dataInicio ? formatarDataBR(prep.dataInicio) : '—'}</span>
+                  </div>
+                  <div>
+                    <span class="text-[9px] font-black uppercase text-slate-400 block mb-0.5">Data da Prova</span>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 font-mono">${prep.dataProva ? formatarDataBR(prep.dataProva) : '—'}</span>
+                  </div>
+                  <div>
+                    <span class="text-[9px] font-black uppercase text-slate-400 block mb-0.5">Meta Diária (Tempo)</span>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 font-mono">${prep.metaHoras || 4.0}h / dia</span>
+                  </div>
+                  <div>
+                    <span class="text-[9px] font-black uppercase text-slate-400 block mb-0.5">Meta Diária (Questões)</span>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 font-mono">${prep.metaQuestoes || 40} questões / dia</span>
+                  </div>
+                </div>
+
+                <!-- Detalhamento por Disciplina -->
+                <div>
+                  <h4 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-3">Distribuição do Edital & Aproveitamento por Disciplina:</h4>
+                  ${materias.length === 0 ? `
+                    <p class="text-xs text-slate-400 italic">Nenhuma disciplina cadastrada neste projeto.</p>
+                  ` : `
+                    <div class="space-y-2">
+                      ${materias.map(d => {
+                        const sDisc = sessoesPrep.filter(s => s.discId === d.id);
+                        const acD = sDisc.reduce((a, s) => a + (s.acertos || 0), 0);
+                        const erD = sDisc.reduce((a, s) => a + (s.erros || 0), 0);
+                        const totQD = acD + erD;
+                        const pctD = totQD > 0 ? ((acD / totQD) * 100).toFixed(0) : '—';
+                        const minD = sDisc.reduce((a, s) => a + (s.minutos || 0), 0);
+                        const hD = Math.floor(minD / 60);
+                        const mD = minD % 60;
+                        const topConcluidos = (d.topicos || []).filter(t => t.concluido).length;
+                        const topTotal = (d.topicos || []).length;
+
+                        return `
+                          <div class="p-3 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs">
+                            <div>
+                              <span class="font-black text-slate-800 dark:text-slate-200 block">${d.nome}</span>
+                              <span class="text-[10px] text-slate-400">${topConcluidos}/${topTotal} tópicos concluídos</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                              <span class="font-mono text-slate-600 dark:text-slate-300 font-bold">${hD}h${mD.toString().padStart(2, '0')}</span>
+                              <span class="font-mono text-emerald-600 font-bold">${acD}C × ${erD}E</span>
+                              <span class="px-2 py-0.5 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-300 font-bold text-[11px]">${pctD}%</span>
+                            </div>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
+                  `}
+                </div>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -2232,7 +2329,6 @@
       const discSel = document.getElementById('histFiltroDiscSelect');
       const bancaSel = document.getElementById('histFiltroBancaSelect');
 
-      // Popula filtros
       const discs = Array.from(new Set(DB.sessoes.map(s => s.discNome)));
       const currD = discSel.value;
       discSel.innerHTML = '<option value="TODAS">Todas as Disciplinas</option>' + 
@@ -2317,7 +2413,7 @@
       renderHistoricoTab();
     }
 
-    // ================= GERENCIAR PREPARAÇÕES (MODAL) =================
+    // ================= GERENCIAR PREPARAÇÕES =================
     function openManagePrepsModal() {
       renderPrepsListModal();
       document.getElementById('modalManagePreps').classList.remove('hidden');
@@ -2416,7 +2512,6 @@
       DB.activePrepId = nova.id;
       salvarDB();
 
-      // Limpa form
       document.getElementById('newPrepNome').value = '';
       document.getElementById('newPrepCargo').value = '';
 
@@ -2513,7 +2608,6 @@
       }
     }
 
-    // Utilitário de Formatação de Data
     function formatarDataBR(isoStr) {
       if (!isoStr) return '—';
       const parts = isoStr.split('-');
