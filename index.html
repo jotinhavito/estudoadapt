@@ -290,7 +290,7 @@
             Recolher Tudo
           </button>
           <button onclick="openLoteModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs uppercase tracking-wider transition flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 012-2h2a2 2 0 012 2"/></svg>
             <span>Colar em Lote</span>
           </button>
           <button onclick="promptNovaDisciplina()" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs uppercase tracking-wider transition shadow-sm flex items-center gap-1.5">
@@ -313,19 +313,18 @@
       <div id="editalDisciplinasContainer" class="space-y-6"></div>
     </div>
 
-    <!-- ABA 3: SESSÃO & REVISÕES (MINI PAINEL DO CRONÔMETRO + REVISÕES REFORMULADAS) -->
+    <!-- ABA 3: SESSÃO & REVISÕES -->
     <div id="tab-sessao" class="tab-content hidden space-y-6">
       <div>
         <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Sessão de Estudos & Revisões</h1>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Cronometre suas horas com foco total e agende revisões estruturadas</p>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Cronometre suas sessões ou agende revisões estruturadas diretamente para o calendário</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Coluna da Esquerda (Cronômetro + Registro) -->
+        <!-- Coluna da Esquerda -->
         <div class="lg:col-span-7 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             
-            <!-- Barra Superior de Seleção de Modo -->
             <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100 dark:border-slate-800 flex-wrap gap-3">
               <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-bold">
                 <button id="modeTimerBtn" onclick="setSessionMode('timer')" class="px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-brand-600 dark:text-white shadow-sm transition">⏱️ Cronômetro Focado</button>
@@ -334,7 +333,7 @@
               <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Registro de Estudos</span>
             </div>
 
-            <!-- MINI PAINEL DO CRONÔMETRO ESTILIZADO -->
+            <!-- Mini Painel do Cronômetro -->
             <div id="timerContainerPanel" class="mb-6 p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-[#0b1324] border border-slate-800 text-white relative overflow-hidden shadow-inner">
               <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-center sm:text-left">
@@ -345,10 +344,9 @@
                   <div class="font-mono text-4xl sm:text-5xl font-black tracking-widest text-white" id="sessionTimerDisplay">
                     00:00:00
                   </div>
-                  <p class="text-[11px] text-slate-400 mt-1 font-medium">Tempo de estudo líquido acumulado na sessão atual</p>
+                  <p class="text-[11px] text-slate-400 mt-1 font-medium">Tempo de estudo líquido acumulado</p>
                 </div>
 
-                <!-- Botões Rápidos do Mini Painel -->
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                   <button id="timerToggleBtn" onclick="toggleTimer()" class="flex-1 sm:flex-none px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition shadow-lg shadow-brand-500/25">
                     Iniciar Cronômetro
@@ -360,7 +358,7 @@
               </div>
             </div>
 
-            <!-- Campos do Formulário -->
+            <!-- Formulário de Matéria, Tópico e Banca -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina</label>
@@ -434,7 +432,7 @@
           </div>
         </div>
 
-        <!-- Coluna da Direita (Painel Reformulado de Agendamento de Revisões) -->
+        <!-- Coluna da Direita (AGENDADOR DE REVISÕES) -->
         <div class="lg:col-span-5 space-y-6">
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             
@@ -455,12 +453,8 @@
               </button>
             </div>
 
-            <!-- Conteúdo Dinâmico Renderizado Fiel às Telas -->
-            <div id="revDynamicContentContainer" class="space-y-4">
-              <!-- Injetado dinamicamente via JS -->
-            </div>
+            <div id="revDynamicContentContainer" class="space-y-4"></div>
 
-            <!-- Botão Salvar Verde Pastel -->
             <div class="mt-5 pt-2">
               <button type="button" onclick="salvarApenasRevisao()" title="Agenda as revisões calculadas diretamente no Calendário" class="w-full py-3.5 rounded-2xl bg-[#a3d9bc] hover:bg-[#8ecba8] active:scale-[0.99] text-slate-800 font-extrabold text-sm tracking-wide transition shadow-sm flex items-center justify-center gap-2">
                 <span>Salvar Revisão Manual</span>
@@ -888,7 +882,15 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Banca</label>
-            <input id="simModalBanca" type="text" placeholder="Ex: Cebraspe, Quadrix..." class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold">
+            <select id="simModalBanca" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="Cebraspe">Cebraspe</option>
+              <option value="FGV">FGV</option>
+              <option value="FCC">FCC</option>
+              <option value="Vunesp">Vunesp</option>
+              <option value="Quadrix">Quadrix</option>
+              <option value="Instituto AOCP">Instituto AOCP</option>
+              <option value="Outra">Outra</option>
+            </select>
           </div>
           <div>
             <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Data da Realização</label>
@@ -931,6 +933,37 @@
 
       <button onclick="salvarNovoSimulado()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
         Salvar Simulado
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: ADICIONAR AO CICLO -->
+  <div id="modalAddCiclo" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-[#151e32] w-full max-w-md rounded-3xl p-6 md:p-8 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <h2 class="text-base font-black text-slate-900 dark:text-white">Adicionar Matéria ao Ciclo</h2>
+        <button onclick="closeAddCicloModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <div class="space-y-4 mb-5">
+        <div>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Disciplina do Edital</label>
+          <select id="cicloDiscSelect" onchange="updateCicloTopicosSelect()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <!-- Renderizado dinamicamente -->
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tópico ou Subtópico</label>
+          <select id="cicloTopicoSelect" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <!-- Renderizado dinamicamente -->
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-black uppercase text-slate-400 mb-1">Tempo na Rodada (Minutos)</label>
+          <input id="cicloMinutosInput" type="number" min="10" step="10" value="90" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-brand-500">
+        </div>
+      </div>
+      <button onclick="salvarNovoCicloItem()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs uppercase tracking-wider transition">
+        Adicionar ao Ciclo
       </button>
     </div>
   </div>
@@ -1049,8 +1082,8 @@
             }
           ],
           ciclo: [
-            { discId: 'disc_1', nome: 'Direito Administrativo', minutos: 90, concluido: false },
-            { discId: 'disc_2', nome: 'Língua Portuguesa', minutos: 90, concluido: false }
+            { discId: 'disc_1', nome: 'Direito Administrativo', topicoId: null, topicoNome: 'Estudo Geral', minutos: 90, concluido: false },
+            { discId: 'disc_2', nome: 'Língua Portuguesa', topicoId: null, topicoNome: 'Estudo Geral', minutos: 90, concluido: false }
           ]
         }
       ],
@@ -2592,20 +2625,21 @@
 
       listContainer.innerHTML = ciclo.map((item, idx) => `
         <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center justify-center shrink-0">
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-black text-xs flex items-center justify-center shrink-0">
               ${idx + 1}
             </span>
-            <div>
-              <span class="text-xs font-black text-slate-900 dark:text-white block ${item.concluido ? 'line-through opacity-50' : ''}">${item.nome}</span>
-              <span class="text-[10px] text-brand-600 font-mono font-semibold">${item.minutos} minutos programados</span>
+            <div class="overflow-hidden">
+              <span class="text-xs font-black text-slate-900 dark:text-white block leading-tight truncate max-w-[200px] sm:max-w-md ${item.concluido ? 'line-through opacity-50' : ''}">${item.nome}</span>
+              <span class="text-[10px] text-slate-500 block mt-0.5 truncate max-w-[180px] sm:max-w-xs ${item.concluido ? 'line-through opacity-50' : ''}">${item.topicoNome || 'Estudo Geral'}</span>
+              <span class="text-[10px] text-brand-600 font-mono font-bold mt-1 block">${item.minutos} min programados</span>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick="toggleCicloItem(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${item.concluido ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'}">
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="toggleCicloItem(${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold transition ${item.concluido ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}">
               ${item.concluido ? '✓ Concluído' : 'Marcar Feito'}
             </button>
-            <button onclick="excluirCicloItem(${idx})" class="p-1.5 text-slate-400 hover:text-rose-500">
+            <button onclick="excluirCicloItem(${idx})" class="p-1.5 text-slate-400 hover:text-rose-500 transition">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m4 0V4a1 1 0 011-1h4a1 1 0 011 1v3M4 7h16"/></svg>
             </button>
           </div>
@@ -2631,17 +2665,64 @@
 
     function openAddCicloModal() {
       const prep = getPrepAtiva();
-      const nome = prompt('Nome da disciplina para o ciclo:');
-      if (!nome) return;
-      const min = parseInt(prompt('Minutos de estudo por rodada (ex: 90):', '90')) || 90;
+      const sel = document.getElementById('cicloDiscSelect');
+      
+      if (!prep.edital || prep.edital.length === 0) {
+        alert('Você precisa cadastrar disciplinas no Edital Vertical primeiro!');
+        return;
+      }
+
+      sel.innerHTML = prep.edital.map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
+      updateCicloTopicosSelect();
+      document.getElementById('cicloMinutosInput').value = 90;
+      document.getElementById('modalAddCiclo').classList.remove('hidden');
+    }
+    
+    function closeAddCicloModal() {
+      document.getElementById('modalAddCiclo').classList.add('hidden');
+    }
+
+    function updateCicloTopicosSelect() {
+      const prep = getPrepAtiva();
+      const discId = document.getElementById('cicloDiscSelect').value;
+      const topSelect = document.getElementById('cicloTopicoSelect');
+
+      if (!discId) {
+        topSelect.innerHTML = '<option value="">Estudo Geral da Disciplina</option>';
+        return;
+      }
+      const disc = prep.edital.find(d => d.id === discId);
+      if (!disc || !disc.topicos || disc.topicos.length === 0) {
+        topSelect.innerHTML = '<option value="">Nenhum tópico cadastrado</option>';
+        return;
+      }
+      topSelect.innerHTML = '<option value="">Estudo Geral da Disciplina</option>' + 
+        disc.topicos.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
+    }
+
+    function salvarNovoCicloItem() {
+      const prep = getPrepAtiva();
+      const discId = document.getElementById('cicloDiscSelect').value;
+      const topicoId = document.getElementById('cicloTopicoSelect').value;
+      const minutos = parseInt(document.getElementById('cicloMinutosInput').value) || 90;
+      
+      const disc = prep.edital.find(d => d.id === discId);
+      if (!disc) return;
+
+      const top = disc.topicos ? disc.topicos.find(t => t.id === topicoId) : null;
+
       if (!prep.ciclo) prep.ciclo = [];
       prep.ciclo.push({
-        discId: 'c_' + Date.now(),
-        nome: nome.trim(),
-        minutos: min,
+        discId: disc.id,
+        nome: disc.nome,
+        topicoId: topicoId || null,
+        topicoNome: top ? top.nome : 'Estudo Geral',
+        minutos: minutos,
         concluido: false
       });
+
       salvarDB();
+      closeAddCicloModal();
       renderCiclosTab();
     }
 
@@ -2724,7 +2805,7 @@
     function openNovoSimuladoModal() {
       const prep = getPrepAtiva();
       document.getElementById('simModalTitulo').value = `Simulado 01 - ${prep.banca} ${prep.nome.split('-')[0].trim()}`;
-      document.getElementById('simModalBanca').value = prep.banca;
+      document.getElementById('simModalBanca').value = prep.banca || 'Cebraspe';
       document.getElementById('modalSimulado').classList.remove('hidden');
     }
     function closeNovoSimuladoModal() {
@@ -2733,7 +2814,7 @@
     function salvarNovoSimulado() {
       const prep = getPrepAtiva();
       const titulo = document.getElementById('simModalTitulo').value.trim();
-      const banca = document.getElementById('simModalBanca').value.trim() || 'Cebraspe';
+      const banca = document.getElementById('simModalBanca').value;
       const data = document.getElementById('simModalData').value;
       const modelo = document.getElementById('simModalModelo').value;
       const total = parseInt(document.getElementById('simModalTotal').value) || 120;
