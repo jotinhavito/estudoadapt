@@ -50,7 +50,6 @@
     <span class="md:hidden">Menu</span>
   </button>
 
-  <!-- Backdrop escurecido para telas móveis -->
   <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity"></div>
 
   <!-- ================= BARRA LATERAL (SIDEBAR RETRÁTIL) ================= -->
@@ -313,7 +312,7 @@
       <div id="editalDisciplinasContainer" class="space-y-6"></div>
     </div>
 
-    <!-- ABA 3: SESSÃO & REVISÕES (MINI PAINEL DO CRONÔMETRO + REVISÕES REFORMULADAS) -->
+    <!-- ABA 3: SESSÃO & REVISÕES (COM CONTROLE ANTIDUPLICIDADE) -->
     <div id="tab-sessao" class="tab-content hidden space-y-6">
       <div>
         <h1 class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Sessão de Estudos & Revisões</h1>
@@ -361,7 +360,7 @@
             <!-- Formulário de Matéria, Tópico e Banca -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina</label>
+                <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina Estudada</label>
                 <select id="sessionDiscSelect" onchange="updateSessionTopicosSelect()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
                   <option value="">Selecione uma disciplina...</option>
                 </select>
@@ -437,8 +436,24 @@
           <div class="bg-white dark:bg-[#151e32] border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 shadow-sm">
             
             <h2 class="text-sm font-bold text-slate-800 dark:text-slate-100 text-center mb-4">
-              Como você quer revisar?
+              Agendar Revisões Manuais
             </h2>
+
+            <!-- NOVIDADE: Seletores independentes no Painel de Revisão -->
+            <div class="space-y-3 mb-5 p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 dark:border-slate-700/80">
+              <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Disciplina da Revisão</label>
+                <select id="revDiscSelect" onchange="updateRevTopicosSelect()" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option value="">Selecione uma disciplina...</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[10px] font-black uppercase text-slate-400 tracking-wider mb-1.5">Tópico Alvo</label>
+                <select id="revTopicoSelect" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option value="">Selecione o tópico...</option>
+                </select>
+              </div>
+            </div>
 
             <!-- Botões em Pílula Superiores -->
             <div class="flex items-center justify-center gap-2 mb-5">
@@ -460,7 +475,7 @@
                 <span>Salvar Revisão Manual</span>
               </button>
               <p class="text-[10px] text-center text-slate-400 mt-2 font-medium">
-                *Agenda diretamente no Calendário para a matéria selecionada ao lado.
+                *Agenda diretamente no Calendário para a disciplina selecionada acima.
               </p>
             </div>
 
@@ -1719,10 +1734,15 @@
     // ================= ABA 3: SESSÃO & NOVO AGENDADOR =================
     function renderSessaoTab() {
       const prep = getPrepAtiva();
-      const discSelect = document.getElementById('sessionDiscSelect');
-      discSelect.innerHTML = '<option value="">Selecione uma disciplina...</option>' + 
+      
+      const discOptions = '<option value="">Selecione uma disciplina...</option>' + 
         (prep.edital || []).map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
+      
+      document.getElementById('sessionDiscSelect').innerHTML = discOptions;
+      document.getElementById('revDiscSelect').innerHTML = discOptions;
+
       updateSessionTopicosSelect();
+      updateRevTopicosSelect();
       renderRevSchedulerUI();
     }
 
@@ -1741,6 +1761,24 @@
         return;
       }
       topSelect.innerHTML = '<option value="">Estudo Geral da Disciplina</option>' + 
+        disc.topicos.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
+    }
+
+    function updateRevTopicosSelect() {
+      const prep = getPrepAtiva();
+      const discId = document.getElementById('revDiscSelect').value;
+      const topSelect = document.getElementById('revTopicoSelect');
+
+      if (!discId) {
+        topSelect.innerHTML = '<option value="">Selecione o tópico...</option>';
+        return;
+      }
+      const disc = prep.edital.find(d => d.id === discId);
+      if (!disc || !disc.topicos) {
+        topSelect.innerHTML = '<option value="">Nenhum tópico cadastrado</option>';
+        return;
+      }
+      topSelect.innerHTML = '<option value="">Revisão Geral da Disciplina</option>' + 
         disc.topicos.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
     }
 
@@ -2141,11 +2179,11 @@
 
     function salvarApenasRevisao() {
       const prep = getPrepAtiva();
-      const discId = document.getElementById('sessionDiscSelect').value;
-      const topicoId = document.getElementById('sessionTopicoSelect').value;
+      const discId = document.getElementById('revDiscSelect').value;
+      const topicoId = document.getElementById('revTopicoSelect').value;
 
       if (!discId) {
-        alert('Por favor, selecione ao menos a Disciplina no formulário ao lado para vincular suas revisões.');
+        alert('Por favor, selecione ao menos a Disciplina no painel de revisão para agendar!');
         return;
       }
 
@@ -2155,21 +2193,38 @@
       const topicoNome = top ? top.nome : 'Revisão Geral da Disciplina';
 
       const datas = calcularDatasPlanejadas();
+      let agendadas = 0;
 
       datas.forEach(dStr => {
-        DB.revisoes.push({
-          id: 'rev_' + Math.random().toString(36).substr(2, 9),
-          prepId: prep.id,
-          discNome: discNome,
-          topicoNome: topicoNome,
-          dataAlvo: dStr,
-          concluida: false
-        });
+        // Bloqueio de duplicidade para a mesma revisão no mesmo dia
+        const existe = DB.revisoes.some(r => 
+          r.prepId === prep.id && 
+          r.discNome === discNome && 
+          r.topicoNome === topicoNome && 
+          r.dataAlvo === dStr
+        );
+
+        if (!existe) {
+          DB.revisoes.push({
+            id: 'rev_' + Math.random().toString(36).substr(2, 9),
+            prepId: prep.id,
+            discNome: discNome,
+            topicoNome: topicoNome,
+            dataAlvo: dStr,
+            concluida: false
+          });
+          agendadas++;
+        }
       });
 
       salvarDB();
       renderCalendarioTab();
-      alert(`Sucesso! ${datas.length} revisão(ões) agendada(s) para "${discNome}" no seu Calendário.`);
+      
+      if (agendadas > 0) {
+        alert(`Sucesso! ${agendadas} nova(s) revisão(ões) agendada(s) para "${discNome}" no seu Calendário.`);
+      } else {
+        alert(`Atenção: Nenhuma nova revisão foi adicionada, pois todas as datas escolhidas já possuíam revisão programada para este tópico.`);
+      }
     }
 
     function salvarSessaoEstudo() {
@@ -2225,14 +2280,24 @@
 
       const datas = calcularDatasPlanejadas();
       datas.forEach(dStr => {
-        DB.revisoes.push({
-          id: 'rev_' + Math.random().toString(36).substr(2, 9),
-          prepId: novaSessao.prepId,
-          discNome: novaSessao.discNome,
-          topicoNome: novaSessao.topicoNome,
-          dataAlvo: dStr,
-          concluida: false
-        });
+        // Anti-Duplicidade automática também ao salvar estudo
+        const existe = DB.revisoes.some(r => 
+          r.prepId === novaSessao.prepId && 
+          r.discNome === novaSessao.discNome && 
+          r.topicoNome === novaSessao.topicoNome && 
+          r.dataAlvo === dStr
+        );
+
+        if (!existe) {
+          DB.revisoes.push({
+            id: 'rev_' + Math.random().toString(36).substr(2, 9),
+            prepId: novaSessao.prepId,
+            discNome: novaSessao.discNome,
+            topicoNome: novaSessao.topicoNome,
+            dataAlvo: dStr,
+            concluida: false
+          });
+        }
       });
 
       salvarDB();
@@ -2272,7 +2337,8 @@
         const diaFormat = `${calCurrentYear}-${(calCurrentMonth + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
         
         const temEstudo = DB.sessoes.some(s => s.data === diaFormat);
-        const temRevisao = DB.revisoes.some(r => r.dataAlvo === diaFormat && !r.concluida);
+        // Exibe o ponto azul se houver qualquer revisão naquele dia, mesmo já concluída, para o calendário manter a marca
+        const temRevisao = DB.revisoes.some(r => r.dataAlvo === diaFormat); 
         const isSelected = diaFormat === calSelectedDayStr;
 
         grid.innerHTML += `
@@ -2332,14 +2398,18 @@
         html += `<span class="text-[10px] font-black uppercase text-blue-600 block mb-2 mt-4">Revisões Programadas:</span>`;
         revisoesDia.forEach(r => {
           html += `
-            <div class="p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 mb-2 flex items-center justify-between">
+            <div class="p-3 rounded-2xl ${r.concluida ? 'bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 opacity-70' : 'bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60'} mb-2 flex items-center justify-between">
               <div>
-                <span class="text-xs font-bold text-slate-800 dark:text-white block">${r.discNome}</span>
+                <span class="text-xs font-bold ${r.concluida ? 'text-slate-500 line-through' : 'text-slate-800 dark:text-white'} block">${r.discNome}</span>
                 <span class="text-[10px] text-slate-500 block">${r.topicoNome}</span>
               </div>
-              <button onclick="concluirRevisao('${r.id}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase transition">
-                Feito
-              </button>
+              ${!r.concluida ? `
+                <button onclick="concluirRevisao('${r.id}')" class="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold uppercase transition">
+                  Feito
+                </button>
+              ` : `
+                <span class="text-[10px] font-black uppercase text-emerald-500 tracking-wider">Concluída</span>
+              `}
             </div>
           `;
         });
@@ -2657,7 +2727,6 @@
       }
 
       listContainer.innerHTML = ciclo.map((item, idx) => {
-        // Exibição dos tópicos selecionados de forma limpa
         const topicsList = item.topicos && item.topicos.length > 0 
            ? item.topicos.map(t => `<span class="inline-block px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-300 mr-1 mb-1 truncate max-w-[180px]">${t.nome}</span>`).join('')
            : (item.topicoNome && item.topicoNome !== 'Estudo Geral' 
@@ -2759,7 +2828,6 @@
       sel.innerHTML = prep.edital.map(d => `<option value="${d.id}">${d.nome}</option>`).join('');
       sel.value = item.discId;
       
-      // Mapeia tópicos antigos (topicoId) ou novos (array topicos)
       const selectedIds = item.topicos ? item.topicos.map(t => t.id) : (item.topicoId ? [item.topicoId] : []);
       updateCicloTopicosUI(selectedIds);
       
@@ -2817,7 +2885,7 @@
 
       if (idxStr !== '') {
         const idx = parseInt(idxStr);
-        newItemData.concluido = prep.ciclo[idx].concluido; // Preserva status de concluído
+        newItemData.concluido = prep.ciclo[idx].concluido;
         prep.ciclo[idx] = newItemData;
       } else {
         prep.ciclo.push(newItemData);
@@ -3037,9 +3105,11 @@
       document.getElementById('editSessaoNotas').value = s.notas || '';
       document.getElementById('modalEditSessao').classList.remove('hidden');
     }
+    
     function closeEditSessaoModal() {
       document.getElementById('modalEditSessao').classList.add('hidden');
     }
+    
     function salvarEdicaoSessao() {
       const id = document.getElementById('editSessaoId').value;
       const s = DB.sessoes.find(sess => sess.id === id);
@@ -3052,6 +3122,7 @@
       closeEditSessaoModal();
       renderHistoricoTab();
     }
+    
     function excluirSessao(sessaoId) {
       if (!confirm('Deseja excluir este registro de estudo?')) return;
       DB.sessoes = DB.sessoes.filter(s => s.id !== sessaoId);
