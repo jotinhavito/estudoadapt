@@ -2336,14 +2336,29 @@
       for (let dia = 1; dia <= totalDias; dia++) {
         const diaFormat = `${calCurrentYear}-${(calCurrentMonth + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
         
-        const temEstudo = DB.sessoes.some(s => s.data === diaFormat);
+        // Filtra as sessões do dia para cálculo do tempo e pontuação
+        const sessoesDia = DB.sessoes.filter(s => s.data === diaFormat);
+        const temEstudo = sessoesDia.length > 0;
+        
+        // Calcula o tempo total de estudo no dia para exibição visual
+        const minutosDia = sessoesDia.reduce((acc, s) => acc + (s.minutos || 0), 0);
+        let tempoStr = '';
+        if (minutosDia > 0) {
+          const h = Math.floor(minutosDia / 60);
+          const m = minutosDia % 60;
+          tempoStr = h > 0 ? (m > 0 ? `${h}h${m.toString().padStart(2, '0')}` : `${h}h`) : `${m}m`;
+        }
+
         // Exibe o ponto azul se houver qualquer revisão naquele dia, mesmo já concluída, para o calendário manter a marca
         const temRevisao = DB.revisoes.some(r => r.dataAlvo === diaFormat); 
         const isSelected = diaFormat === calSelectedDayStr;
 
         grid.innerHTML += `
           <div onclick="selecionarDiaCalendario('${diaFormat}')" class="h-14 rounded-2xl p-2 cursor-pointer transition flex flex-col justify-between border ${isSelected ? 'border-brand-600 bg-brand-50/40 dark:bg-brand-950/40' : 'border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40'}">
-            <span class="text-xs font-bold ${isSelected ? 'text-brand-600 dark:text-brand-400' : 'text-slate-700 dark:text-slate-300'}">${dia}</span>
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-bold ${isSelected ? 'text-brand-600 dark:text-brand-400' : 'text-slate-700 dark:text-slate-300'}">${dia}</span>
+              ${tempoStr ? `<span class="text-[9px] font-black text-emerald-600 dark:text-emerald-500 tracking-tight leading-none">${tempoStr}</span>` : ''}
+            </div>
             <div class="flex items-center gap-1">
               ${temEstudo ? '<span class="w-2 h-2 rounded-full bg-emerald-500"></span>' : ''}
               ${temRevisao ? '<span class="w-2 h-2 rounded-full bg-blue-500"></span>' : ''}
